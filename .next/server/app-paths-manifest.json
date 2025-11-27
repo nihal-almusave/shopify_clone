@@ -1,0 +1,18 @@
+{
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/merchant/auth/login/page": "app/merchant/auth/login/page.js",
+  "/merchant/auth/signup/page": "app/merchant/auth/signup/page.js",
+  "/merchant/auth/verify-email/page": "app/merchant/auth/verify-email/page.js",
+  "/merchant/dashboard/orders/page": "app/merchant/dashboard/orders/page.js",
+  "/merchant/dashboard/page": "app/merchant/dashboard/page.js",
+  "/merchant/dashboard/products/page": "app/merchant/dashboard/products/page.js",
+  "/merchant/dashboard/store/page": "app/merchant/dashboard/store/page.js",
+  "/orders/page": "app/orders/page.js",
+  "/page": "app/page.js",
+  "/store/[storeSlug]/cart/page": "app/store/[storeSlug]/cart/page.js",
+  "/store/[storeSlug]/checkout/page": "app/store/[storeSlug]/checkout/page.js",
+  "/store/[storeSlug]/checkout/success/page": "app/store/[storeSlug]/checkout/success/page.js",
+  "/store/[storeSlug]/page": "app/store/[storeSlug]/page.js",
+  "/store/[storeSlug]/product/[productId]/page": "app/store/[storeSlug]/product/[productId]/page.js"
+}

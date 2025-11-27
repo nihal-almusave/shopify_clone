@@ -1,0 +1,20 @@
+{
+  "node": {
+    "401c4777d774fc8e8f23243e05414d42099b3b3090": {
+      "workers": {
+        "app/store/[storeSlug]/checkout/page": {
+          "moduleId": 43313,
+          "async": false,
+          "exportedName": "createCheckoutSession",
+          "filename": "app/actions/stripe.ts"
+        }
+      },
+      "layer": {
+        "app/store/[storeSlug]/checkout/page": "action-browser"
+      },
+      "exportedName": "createCheckoutSession",
+      "filename": "app/actions/stripe.ts"
+    }
+  },
+  "edge": {}
+}

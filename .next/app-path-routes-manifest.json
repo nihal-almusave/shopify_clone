@@ -1,0 +1,18 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/merchant/auth/login/page": "/merchant/auth/login",
+  "/merchant/auth/signup/page": "/merchant/auth/signup",
+  "/merchant/auth/verify-email/page": "/merchant/auth/verify-email",
+  "/merchant/dashboard/orders/page": "/merchant/dashboard/orders",
+  "/merchant/dashboard/page": "/merchant/dashboard",
+  "/merchant/dashboard/products/page": "/merchant/dashboard/products",
+  "/merchant/dashboard/store/page": "/merchant/dashboard/store",
+  "/orders/page": "/orders",
+  "/page": "/",
+  "/store/[storeSlug]/cart/page": "/store/[storeSlug]/cart",
+  "/store/[storeSlug]/checkout/page": "/store/[storeSlug]/checkout",
+  "/store/[storeSlug]/checkout/success/page": "/store/[storeSlug]/checkout/success",
+  "/store/[storeSlug]/page": "/store/[storeSlug]",
+  "/store/[storeSlug]/product/[productId]/page": "/store/[storeSlug]/product/[productId]"
+}

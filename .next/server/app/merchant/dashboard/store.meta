@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/merchant/layout,_N_T_/merchant/dashboard/layout,_N_T_/merchant/dashboard/store/layout,_N_T_/merchant/dashboard/store/page,_N_T_/merchant/dashboard/store"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/merchant/dashboard/store/__PAGE__",
+    "/merchant/dashboard/store",
+    "/merchant/dashboard",
+    "/merchant",
+    "/_index",
+    "/_head"
+  ]
+}

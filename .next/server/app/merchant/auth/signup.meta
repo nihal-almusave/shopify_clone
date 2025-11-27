@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/merchant/layout,_N_T_/merchant/auth/layout,_N_T_/merchant/auth/signup/layout,_N_T_/merchant/auth/signup/page,_N_T_/merchant/auth/signup"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/merchant/auth/signup/__PAGE__",
+    "/merchant/auth/signup",
+    "/merchant/auth",
+    "/merchant",
+    "/_index",
+    "/_head"
+  ]
+}

@@ -12,3 +12,10 @@
 [00:00:20.109] Server  LOG      ✓ Ready in 14s
 [00:02:26.748] Server  ERROR   [v0] Supabase env vars missing in middleware, skipping auth check
 [00:02:29.773] Server  LOG      ○ Compiling / ...
+[00:05:52.947] Server  ERROR   E:\shopify-like-service\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:05:52.967] Server  ERROR   Error: Both middleware file "./middleware.ts" and proxy file "./proxy.ts" are detected. Please use "./proxy.ts" only. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+[00:05:52.985] Server  ERROR   E:\shopify-like-service\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:05:52.986] Server  ERROR    ⨯ "unhandledRejection:" Error: Both middleware file "./middleware.ts" and proxy file "./proxy.ts" are detected. Please use "./proxy.ts" only. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+[00:05:52.988] Server  ERROR   E:\shopify-like-service\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:05:52.989] Server  ERROR    ⨯ "unhandledRejection: " Error: Both middleware file "./middleware.ts" and proxy file "./proxy.ts" are detected. Please use "./proxy.ts" only. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+[00:05:55.328] Server  LOG      ✓ Compiled in 2.7s
