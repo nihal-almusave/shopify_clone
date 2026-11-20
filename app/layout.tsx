@@ -1,27 +1,24 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Inter, Bricolage_Grotesque } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
+import { Toaster } from "@/components/ui/sonner"
 import "./globals.css"
 
-const _geist = Geist({ subsets: ["latin"] })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
+const bricolage = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-bricolage" })
 
 export const metadata: Metadata = {
-  title: "ShopHub - Multi-Vendor SaaS Platform",
-  description: "Create and manage your online store",
-  generator: "v0.app",
+  title: { default: "ShopHub — Start selling online", template: "%s · ShopHub" },
+  description: "Create an online store, add products, take orders and get paid. All in one place.",
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body className={`font-sans antialiased`}>
+    <html lang="en" className={`${inter.variable} ${bricolage.variable}`}>
+      <body className="font-sans antialiased">
         {children}
+        <Toaster position="bottom-center" theme="dark" />
         <Analytics />
       </body>
     </html>

@@ -3,17 +3,10 @@ import { NextResponse, type NextRequest } from "next/server"
 
 export async function updateSession(request: NextRequest) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!url || !key) return NextResponse.next({ request })
 
-  // If env vars are missing, just pass through without auth middleware
-  if (!url || !key) {
-    console.warn("[v0] Supabase env vars missing in middleware, skipping auth check")
-    return NextResponse.next({ request })
-  }
-
-  let supabaseResponse = NextResponse.next({
-    request,
-  })
+  let response = NextResponse.next({ request })
 
   const supabase = createServerClient(url, key, {
     cookies: {
@@ -22,10 +15,8 @@ export async function updateSession(request: NextRequest) {
       },
       setAll(cookiesToSet) {
         cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
-        supabaseResponse = NextResponse.next({
-          request,
-        })
-        cookiesToSet.forEach(({ name, value, options }) => supabaseResponse.cookies.set(name, value, options))
+        response = NextResponse.next({ request })
+        cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options))
       },
     },
   })
@@ -34,23 +25,21 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Redirect to login if accessing protected merchant routes without auth
-  if (
-    (request.nextUrl.pathname.startsWith("/merchant") || request.nextUrl.pathname.startsWith("/dashboard")) &&
-    !user &&
-    !request.nextUrl.pathname.startsWith("/merchant/auth")
-  ) {
-    const url = request.nextUrl.clone()
-    url.pathname = "/merchant/auth/login"
-    return NextResponse.redirect(url)
+  const path = request.nextUrl.pathname
+
+  if (path.startsWith("/admin") && !user) {
+    const redirect = request.nextUrl.clone()
+    redirect.pathname = "/auth/login"
+    redirect.searchParams.set("next", path)
+    return NextResponse.redirect(redirect)
   }
 
-  // Redirect to dashboard if already logged in and trying to access auth pages
-  if (user && request.nextUrl.pathname.startsWith("/merchant/auth")) {
-    const url = request.nextUrl.clone()
-    url.pathname = "/merchant/dashboard"
-    return NextResponse.redirect(url)
+  if (user && (path === "/auth/login" || path === "/auth/signup")) {
+    const redirect = request.nextUrl.clone()
+    redirect.pathname = "/admin"
+    redirect.search = ""
+    return NextResponse.redirect(redirect)
   }
 
-  return supabaseResponse
+  return response
 }

@@ -4,39 +4,45 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --background: #ffffff;
+  --foreground: #303030;
+  --card: #ffffff;
+  --card-foreground: #303030;
+  --popover: #ffffff;
+  --popover-foreground: #303030;
+  --primary: #303030;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f1f1;
+  --secondary-foreground: #303030;
+  --muted: #f7f7f7;
+  --muted-foreground: #616161;
+  --accent: #f1f1f1;
+  --accent-foreground: #303030;
+  --destructive: #c70a24;
+  --destructive-foreground: #ffffff;
+  --border: #e3e3e3;
+  --input: #8a8a8a;
+  --ring: #005bd3;
+  --chart-1: #008060;
+  --chart-2: #005bd3;
+  --chart-3: #8051ff;
+  --chart-4: #e3a400;
+  --chart-5: #e51c00;
+  --radius: 0.5rem;
+  --sidebar: #ebebeb;
+  --sidebar-foreground: #303030;
+  --sidebar-primary: #303030;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #fafafa;
+  --sidebar-accent-foreground: #303030;
+  --sidebar-border: #e3e3e3;
+  --sidebar-ring: #005bd3;
+
+  /* Admin surface tokens */
+  --admin-canvas: #f1f1f1;
+  --admin-topbar: #1a1a1a;
+  --brand: #008060;
+  --brand-dark: #006e52;
 }
 
 .dark {
@@ -75,8 +81,13 @@
 }
 
 @theme inline {
-  --font-sans: 'Geist', 'Geist Fallback';
-  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-display: var(--font-bricolage), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --color-canvas: var(--admin-canvas);
+  --color-topbar: var(--admin-topbar);
+  --color-brand: var(--brand);
+  --color-brand-dark: var(--brand-dark);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -121,5 +132,50 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* Card surface used across the admin */
+  .surface {
+    @apply rounded-xl bg-white;
+    box-shadow:
+      0 1px 0 0 rgba(26, 26, 26, 0.07),
+      0 1px 0 0 rgba(208, 208, 208, 0.4) inset,
+      1px 0 0 0 #cccccc inset,
+      -1px 0 0 0 #cccccc inset,
+      0 -1px 0 0 #cccccc inset;
+  }
+  /* Primary dark button with a subtle bevel */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-lg px-3 h-8 text-[13px] font-semibold text-white transition-colors disabled:opacity-60 disabled:pointer-events-none;
+    background: linear-gradient(180deg, #4a4a4a 0%, #303030 100%);
+    box-shadow:
+      0 -1px 0 1px rgba(0, 0, 0, 0.8) inset,
+      0 0 0 1px #303030 inset,
+      0 0.5px 0 1.5px rgba(255, 255, 255, 0.25) inset;
+  }
+  .btn-primary:hover { background: #1a1a1a; }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-lg px-3 h-8 text-[13px] font-semibold text-[#303030] bg-white transition-colors disabled:opacity-60 disabled:pointer-events-none;
+    box-shadow:
+      0 -1px 0 0 #b5b5b5 inset,
+      0 0 0 1px rgba(0, 0, 0, 0.1) inset,
+      0 0.5px 0 1.5px #ffffff inset;
+  }
+  .btn-secondary:hover { background: #fafafa; }
+  .btn-critical {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-lg px-3 h-8 text-[13px] font-semibold text-white transition-colors disabled:opacity-60 disabled:pointer-events-none;
+    background: linear-gradient(180deg, #e51c00 0%, #c70a24 100%);
+    box-shadow: 0 -1px 0 1px rgba(142, 31, 11, 0.8) inset, 0 0 0 1px #8e1f0b inset;
+  }
+  .field {
+    @apply block w-full rounded-lg border border-[#8a8a8a] bg-white px-3 py-1.5 text-[13px] text-[#303030] placeholder:text-[#8a8a8a] outline-none transition-shadow focus:border-[#005bd3] focus:ring-2 focus:ring-[#005bd3]/30 disabled:bg-[#f7f7f7] disabled:text-[#8a8a8a];
+  }
+  .field-label {
+    @apply mb-1 block text-[13px] font-medium text-[#303030];
+  }
+  .field-help {
+    @apply mt-1 text-xs text-[#616161];
   }
 }
