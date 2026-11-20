@@ -11,6 +11,10 @@ const bricolage = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-br
 export const metadata: Metadata = {
   title: { default: "ShopHub — Start selling online", template: "%s · ShopHub" },
   description: "Create an online store, add products, take orders and get paid. All in one place.",
+  icons: {
+    icon: [{ url: "/shophub-icon.svg", type: "image/svg+xml" }, { url: "/api/icon?size=48", type: "image/png", sizes: "48x48" }],
+    apple: { url: "/api/icon?size=180", sizes: "180x180" },
+  },
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
