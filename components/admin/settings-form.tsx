@@ -23,6 +23,7 @@ export function SettingsForm({ merchant }: { merchant: Merchant }) {
     accent_color: merchant.accent_color,
     logo_url: merchant.logo_url ?? "",
     banner_url: merchant.banner_url ?? "",
+    favicon_url: merchant.favicon_url ?? "",
     currency: merchant.currency,
     tax_rate: String(merchant.tax_rate),
     shipping_rate: String(merchant.shipping_rate),
@@ -49,6 +50,7 @@ export function SettingsForm({ merchant }: { merchant: Merchant }) {
         accent_color: form.accent_color,
         logo_url: form.logo_url || null,
         banner_url: form.banner_url || null,
+        favicon_url: form.favicon_url || null,
         currency: form.currency,
         tax_rate: Number.parseFloat(form.tax_rate) || 0,
         shipping_rate: Number.parseFloat(form.shipping_rate) || 0,
@@ -106,6 +108,21 @@ export function SettingsForm({ merchant }: { merchant: Merchant }) {
               <div className="grid gap-4 sm:grid-cols-[10rem_1fr]">
                 <ImagePicker label="Logo" merchantId={merchant.id} value={form.logo_url} onChange={(v) => set("logo_url", v)} square />
                 <ImagePicker label="Cover image" merchantId={merchant.id} value={form.banner_url} onChange={(v) => set("banner_url", v)} />
+              </div>
+              <div className="mt-4 grid gap-4 border-t border-[#ebebeb] pt-4 sm:grid-cols-[10rem_1fr]">
+                <ImagePicker label="Favicon" merchantId={merchant.id} value={form.favicon_url} onChange={(v) => set("favicon_url", v)} square />
+                <div>
+                  <p className="field-label">Browser tab preview</p>
+                  <TabPreview
+                    name={form.store_name || "Your store"}
+                    icon={form.favicon_url || form.logo_url}
+                    color={form.accent_color}
+                  />
+                  <p className="field-help mt-2">
+                    Shown in browser tabs and bookmarks. Upload a square image (at least 64 × 64 px, PNG works best).
+                    Without one, your logo is used, or a letter icon in your accent color.
+                  </p>
+                </div>
               </div>
               <p className="field-label mt-4">Accent color</p>
               <div className="flex flex-wrap items-center gap-2">
@@ -236,6 +253,25 @@ function ImagePicker({
           }
         }}
       />
+    </div>
+  )
+}
+
+function TabPreview({ name, icon, color }: { name: string; icon: string; color: string }) {
+  return (
+    <div className="rounded-lg bg-[#dee1e6] px-2 pt-2">
+      <div className="flex w-full max-w-[260px] items-center gap-2 rounded-t-lg bg-white px-3 py-2">
+        {icon ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={icon} alt="" className="size-4 rounded-sm object-cover" />
+        ) : (
+          <span className="grid size-4 place-items-center rounded-[4px] text-[10px] font-bold text-white" style={{ background: color }}>
+            {name.trim()[0]?.toUpperCase() ?? "S"}
+          </span>
+        )}
+        <span className="truncate text-xs text-[#303030]">{name}</span>
+        <span className="ml-auto text-xs text-[#8a8a8a]">×</span>
+      </div>
     </div>
   )
 }

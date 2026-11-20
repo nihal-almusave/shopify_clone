@@ -3,7 +3,7 @@ import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 import { AdminShell } from "@/components/admin/admin-shell"
 
-export const metadata = { title: "Admin" }
+export const metadata = { title: { default: "Admin · ShopHub", template: "%s · ShopHub" } }
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()

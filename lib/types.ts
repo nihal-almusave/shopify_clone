@@ -5,6 +5,7 @@ export type Merchant = {
   description: string | null
   logo_url: string | null
   banner_url: string | null
+  favicon_url: string | null
   announcement: string | null
   accent_color: string
   email: string
@@ -24,6 +25,7 @@ export type Storefront = Pick<
   | "description"
   | "logo_url"
   | "banner_url"
+  | "favicon_url"
   | "announcement"
   | "accent_color"
   | "currency"
@@ -33,7 +35,7 @@ export type Storefront = Pick<
 >
 
 export const STOREFRONT_COLUMNS =
-  "id, store_name, store_slug, description, logo_url, banner_url, announcement, accent_color, currency, tax_rate, shipping_rate, free_shipping_threshold"
+  "id, store_name, store_slug, description, logo_url, banner_url, favicon_url, announcement, accent_color, currency, tax_rate, shipping_rate, free_shipping_threshold"
 
 export type ProductStatus = "active" | "draft" | "archived"
 
