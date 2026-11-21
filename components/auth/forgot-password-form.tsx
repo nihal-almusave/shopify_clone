@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useState } from "react"
 import { Loader2, MailCheck } from "lucide-react"
-import { createClient } from "@/lib/supabase/client"
+import { requestPasswordReset } from "@/lib/password-reset"
 
 export function ForgotPasswordForm({ expired = false }: { expired?: boolean }) {
   const [email, setEmail] = useState("")
@@ -17,16 +17,10 @@ export function ForgotPasswordForm({ expired = false }: { expired?: boolean }) {
     e.preventDefault()
     setLoading(true)
     setError(null)
-    const { error } = await createClient().auth.resetPasswordForEmail(email.trim(), {
-      redirectTo: `${window.location.origin}/auth/callback?next=/auth/update-password`,
-    })
+    const res = await requestPasswordReset(email)
     setLoading(false)
-    if (error) {
-      setError(
-        /rate limit/i.test(error.message)
-          ? "Too many reset emails were sent recently. Wait a few minutes and try again."
-          : error.message,
-      )
+    if (!res.ok) {
+      setError(res.error)
       return
     }
     setSent(true)
