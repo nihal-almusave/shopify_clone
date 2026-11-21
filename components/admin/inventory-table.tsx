@@ -45,14 +45,14 @@ export function InventoryTable({ products }: { products: Product[] }) {
     <Card flush>
       <div className="overflow-x-auto">
         <table className="w-full min-w-[520px] text-[13px]">
-          <thead className="bg-[#f7f7f7] text-left text-xs text-[#616161]">
+          <thead className="bg-[#f7f8f5] text-left text-xs text-[#5d6b63]">
             <tr>
               <th className="px-4 py-2 font-medium">Product</th>
               <th className="px-3 py-2 font-medium">SKU</th>
               <th className="w-40 px-4 py-2 text-right font-medium">Available</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#ebebeb]">
+          <tbody className="divide-y divide-[#eceee9]">
             {products.map((p) => (
               <tr key={p.id}>
                 <td className="px-4 py-2">
@@ -61,7 +61,7 @@ export function InventoryTable({ products }: { products: Product[] }) {
                     {p.name}
                   </Link>
                 </td>
-                <td className="px-3 py-2 text-[#616161]">{p.sku || "No SKU"}</td>
+                <td className="px-3 py-2 text-[#5d6b63]">{p.sku || "No SKU"}</td>
                 <td className="px-4 py-2">
                   <input
                     type="number"
@@ -76,7 +76,7 @@ export function InventoryTable({ products }: { products: Product[] }) {
           </tbody>
         </table>
       </div>
-      <div className="flex justify-end border-t border-[#ebebeb] p-3">
+      <div className="flex justify-end border-t border-[#eceee9] p-3">
         <button className="btn-primary" disabled={!changed.length || saving} onClick={save}>
           Save{changed.length ? ` (${changed.length})` : ""}
         </button>

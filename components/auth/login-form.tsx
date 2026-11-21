@@ -34,15 +34,20 @@ export function LoginForm() {
 
   return (
     <>
-      <h1 className="text-2xl font-bold tracking-tight text-[#303030]">Log in</h1>
-      <p className="mt-1 text-sm text-[#616161]">Continue to your store admin</p>
+      <h1 className="text-2xl font-bold tracking-tight text-[#12201a]">Log in</h1>
+      <p className="mt-1 text-sm text-[#5d6b63]">Continue to your store admin</p>
       <form onSubmit={submit} className="mt-6 grid gap-4">
         <div>
           <label className="field-label" htmlFor="email">Email</label>
           <input id="email" type="email" autoComplete="email" required className="field py-2" value={email} onChange={(e) => setEmail(e.target.value)} />
         </div>
         <div>
-          <label className="field-label" htmlFor="password">Password</label>
+          <div className="flex items-baseline justify-between">
+            <label className="field-label" htmlFor="password">Password</label>
+            <Link href="/auth/forgot-password" className="text-[13px] font-medium text-[#0b6e4f] hover:underline">
+              Forgot password?
+            </Link>
+          </div>
           <input id="password" type="password" autoComplete="current-password" required className="field py-2" value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
         {error && <p className="rounded-lg bg-[#fee9e8] px-3 py-2 text-[13px] text-[#8e0b21]">{error}</p>}
@@ -50,9 +55,9 @@ export function LoginForm() {
           {loading && <Loader2 className="size-4 animate-spin" />} Log in
         </button>
       </form>
-      <p className="mt-6 text-center text-[13px] text-[#616161]">
+      <p className="mt-6 text-center text-[13px] text-[#5d6b63]">
         New to ShopHub?{" "}
-        <Link href="/auth/signup" className="font-medium text-[#005bd3] hover:underline">
+        <Link href="/auth/signup" className="font-medium text-[#0b6e4f] hover:underline">
           Get started
         </Link>
       </p>

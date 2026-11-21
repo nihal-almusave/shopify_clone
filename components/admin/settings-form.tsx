@@ -10,7 +10,7 @@ import type { Merchant } from "@/lib/types"
 import { Card, Page } from "@/components/admin/ui"
 import { uploadStoreImage } from "@/components/admin/upload"
 
-const ACCENTS = ["#008060", "#303030", "#005bd3", "#8051ff", "#e51c00", "#c05717", "#b98900", "#0b7285"]
+const ACCENTS = ["#008060", "#12201a", "#0b3d2c", "#8051ff", "#e51c00", "#c05717", "#b98900", "#0b7285"]
 
 export function SettingsForm({ merchant }: { merchant: Merchant }) {
   const router = useRouter()
@@ -93,8 +93,8 @@ export function SettingsForm({ merchant }: { merchant: Merchant }) {
                 </div>
               </div>
               <label className="field-label mt-4" htmlFor="store_slug">Store URL</label>
-              <div className="flex items-stretch overflow-hidden rounded-lg border border-[#8a8a8a] focus-within:border-[#005bd3] focus-within:ring-2 focus-within:ring-[#005bd3]/30">
-                <span className="flex items-center bg-[#f7f7f7] px-3 text-[13px] text-[#616161]">/store/</span>
+              <div className="flex items-stretch overflow-hidden rounded-lg border border-[#8a958e] focus-within:border-[#0b3d2c] focus-within:ring-2 focus-within:ring-[#0b3d2c]/30">
+                <span className="flex items-center bg-[#f7f8f5] px-3 text-[13px] text-[#5d6b63]">/store/</span>
                 <input id="store_slug" className="w-full px-2 py-1.5 text-[13px] outline-none" value={form.store_slug} onChange={(e) => set("store_slug", e.target.value.toLowerCase())} />
               </div>
               <p className="field-help">Changing this breaks links you’ve already shared.</p>
@@ -109,7 +109,7 @@ export function SettingsForm({ merchant }: { merchant: Merchant }) {
                 <ImagePicker label="Logo" merchantId={merchant.id} value={form.logo_url} onChange={(v) => set("logo_url", v)} square />
                 <ImagePicker label="Cover image" merchantId={merchant.id} value={form.banner_url} onChange={(v) => set("banner_url", v)} />
               </div>
-              <div className="mt-4 grid gap-4 border-t border-[#ebebeb] pt-4 sm:grid-cols-[10rem_1fr]">
+              <div className="mt-4 grid gap-4 border-t border-[#eceee9] pt-4 sm:grid-cols-[10rem_1fr]">
                 <ImagePicker label="Favicon" merchantId={merchant.id} value={form.favicon_url} onChange={(v) => set("favicon_url", v)} square />
                 <div>
                   <p className="field-label">Browser tab preview</p>
@@ -132,11 +132,11 @@ export function SettingsForm({ merchant }: { merchant: Merchant }) {
                     type="button"
                     onClick={() => set("accent_color", c)}
                     aria-label={`Use ${c}`}
-                    className={`size-8 rounded-full ring-offset-2 ${form.accent_color === c ? "ring-2 ring-[#303030]" : ""}`}
+                    className={`size-8 rounded-full ring-offset-2 ${form.accent_color === c ? "ring-2 ring-[#12201a]" : ""}`}
                     style={{ background: c }}
                   />
                 ))}
-                <input type="color" aria-label="Custom accent color" value={form.accent_color} onChange={(e) => set("accent_color", e.target.value)} className="h-8 w-10 cursor-pointer rounded border border-[#d4d4d4]" />
+                <input type="color" aria-label="Custom accent color" value={form.accent_color} onChange={(e) => set("accent_color", e.target.value)} className="h-8 w-10 cursor-pointer rounded border border-[#d5dad3]" />
               </div>
               <label className="field-label mt-4" htmlFor="announcement">Announcement bar</label>
               <input id="announcement" className="field" value={form.announcement} onChange={(e) => set("announcement", e.target.value)} placeholder="Free shipping on orders over $50" />
@@ -194,7 +194,7 @@ function Section({ id, title, description, children }: { id?: string; title: str
     <section id={id} className="grid scroll-mt-20 gap-3 md:grid-cols-[16rem_1fr]">
       <div>
         <h2 className="text-sm font-semibold">{title}</h2>
-        <p className="mt-1 text-[13px] text-[#616161]">{description}</p>
+        <p className="mt-1 text-[13px] text-[#5d6b63]">{description}</p>
       </div>
       {children}
     </section>
@@ -219,7 +219,7 @@ function ImagePicker({
   return (
     <div>
       <p className="field-label">{label}</p>
-      <div className={`group relative overflow-hidden rounded-lg border-2 border-dashed border-[#b5b5b5] bg-[#f7f7f7] ${square ? "aspect-square" : "aspect-[3/1] sm:aspect-auto sm:h-[calc(100%-1.5rem)]"}`}>
+      <div className={`group relative overflow-hidden rounded-lg border-2 border-dashed border-[#b9c2bc] bg-[#f7f8f5] ${square ? "aspect-square" : "aspect-[3/1] sm:aspect-auto sm:h-[calc(100%-1.5rem)]"}`}>
         {value ? (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -229,7 +229,7 @@ function ImagePicker({
             </button>
           </>
         ) : (
-          <button type="button" onClick={() => ref.current?.click()} className="flex size-full flex-col items-center justify-center gap-1 text-[13px] text-[#616161] hover:bg-[#f1f1f1]">
+          <button type="button" onClick={() => ref.current?.click()} className="flex size-full flex-col items-center justify-center gap-1 text-[13px] text-[#5d6b63] hover:bg-[#f2f3ef]">
             {busy ? <Loader2 className="size-5 animate-spin" /> : <ImagePlus className="size-5" />}
             Upload
           </button>
@@ -269,8 +269,8 @@ function TabPreview({ name, icon, color }: { name: string; icon: string; color: 
             {name.trim()[0]?.toUpperCase() ?? "S"}
           </span>
         )}
-        <span className="truncate text-xs text-[#303030]">{name}</span>
-        <span className="ml-auto text-xs text-[#8a8a8a]">×</span>
+        <span className="truncate text-xs text-[#12201a]">{name}</span>
+        <span className="ml-auto text-xs text-[#8a958e]">×</span>
       </div>
     </div>
   )

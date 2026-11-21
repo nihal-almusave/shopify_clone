@@ -58,6 +58,8 @@ The schema lives in `supabase/migrations/`. Demo data is in `supabase/seed.sql`.
    If you use the Vercel ↔ Supabase integration, the Supabase variables are added for you.
 3. In Supabase → Authentication → URL Configuration, set **Site URL** to your production URL and add `https://<your-domain>/auth/callback` to **Redirect URLs** (add your preview URLs too if you test sign-ups there).
 4. Deploy.
+5. Optional but recommended: in Supabase → Authentication → Emails → Templates, paste `supabase/templates/reset-password.html` into **Reset password** (and `confirm-signup.html` into **Confirm signup** if email confirmation is on). These links work on any device; Supabase's default links only work in the browser that requested them.
+6. Supabase's built-in email sender only delivers to your own team's addresses, about 2 emails an hour. For real customers, connect your own SMTP provider (e.g. Resend) under Authentication → Emails → SMTP Settings.
 
 ### Card payments (optional)
 
@@ -74,7 +76,7 @@ Shoppers are sent to Stripe Checkout and the order is marked paid when they retu
 ```
 app/
   page.tsx                     marketing landing page
-  auth/                        log in, sign up, email confirmation callback
+  auth/                        log in, sign up, forgot/reset password, email link callback
   admin/                       merchant admin (home, orders, products, customers, settings)
   store/[storeSlug]/           storefront: (shop) pages, checkout, order status
   api/stripe/webhook/          Stripe webhook

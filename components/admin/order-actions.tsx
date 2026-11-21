@@ -46,7 +46,7 @@ export function OrderActions({ order }: { order: Order }) {
             <div className="fixed inset-0 z-30" onClick={() => setMore(false)} />
             <div className="surface absolute right-0 z-40 mt-1 w-52 p-1.5 text-[13px]">
               <button
-                className="w-full rounded-lg px-2 py-1.5 text-left hover:bg-[#f1f1f1]"
+                className="w-full rounded-lg px-2 py-1.5 text-left hover:bg-[#f2f3ef]"
                 onClick={() => run(() => archiveOrder(order.id, order.status !== "archived"), order.status === "archived" ? "Order unarchived" : "Order archived")}
               >
                 {order.status === "archived" ? "Unarchive" : "Archive"}
@@ -61,7 +61,7 @@ export function OrderActions({ order }: { order: Order }) {
                   Cancel order
                 </button>
               )}
-              <button className="w-full rounded-lg px-2 py-1.5 text-left hover:bg-[#f1f1f1]" onClick={() => window.print()}>
+              <button className="w-full rounded-lg px-2 py-1.5 text-left hover:bg-[#f2f3ef]" onClick={() => window.print()}>
                 Print order
               </button>
             </div>
@@ -72,13 +72,13 @@ export function OrderActions({ order }: { order: Order }) {
       {fulfilling && (
         <div className="fixed inset-0 z-50 grid place-items-center bg-black/40 p-4" onClick={() => setFulfilling(false)}>
           <div className="surface w-full max-w-md p-0" onClick={(e) => e.stopPropagation()}>
-            <div className="border-b border-[#ebebeb] px-4 py-3 text-sm font-semibold">Fulfill #{order.order_number}</div>
+            <div className="border-b border-[#eceee9] px-4 py-3 text-sm font-semibold">Fulfill #{order.order_number}</div>
             <div className="p-4">
               <label className="field-label" htmlFor="tracking">Tracking number (optional)</label>
               <input id="tracking" className="field" value={tracking} onChange={(e) => setTracking(e.target.value)} autoFocus />
               <p className="field-help">The customer can see this on their order status page.</p>
             </div>
-            <div className="flex justify-end gap-2 border-t border-[#ebebeb] px-4 py-3">
+            <div className="flex justify-end gap-2 border-t border-[#eceee9] px-4 py-3">
               <button className="btn-secondary" onClick={() => setFulfilling(false)}>Cancel</button>
               <button className="btn-primary" disabled={pending} onClick={() => run(() => fulfillOrder(order.id, tracking), "Items fulfilled")}>
                 {pending && <Loader2 className="size-3.5 animate-spin" />} Fulfill items
@@ -100,7 +100,7 @@ export function OrderNote({ orderId, note }: { orderId: string; note: string | n
       title="Notes"
       action={
         !editing && (
-          <button className="text-[13px] font-medium text-[#005bd3] hover:underline" onClick={() => setEditing(true)}>
+          <button className="text-[13px] font-medium text-[#0b6e4f] hover:underline" onClick={() => setEditing(true)}>
             Edit
           </button>
         )
@@ -127,7 +127,7 @@ export function OrderNote({ orderId, note }: { orderId: string; note: string | n
           </div>
         </>
       ) : (
-        <p className="text-[13px] text-[#616161]">{note || "No notes from customer"}</p>
+        <p className="text-[13px] text-[#5d6b63]">{note || "No notes from customer"}</p>
       )}
     </Card>
   )

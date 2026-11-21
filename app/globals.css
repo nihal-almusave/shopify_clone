@@ -39,8 +39,8 @@
   --sidebar-ring: #005bd3;
 
   /* Admin surface tokens */
-  --admin-canvas: #f1f1f1;
-  --admin-topbar: #1a1a1a;
+  --admin-canvas: #f2f3ef;
+  --admin-topbar: #0b3d2c;
   --brand: #008060;
   --brand-dark: #006e52;
 }
@@ -138,45 +138,26 @@
 @layer components {
   /* Card surface used across the admin */
   .surface {
-    @apply rounded-xl bg-white;
-    box-shadow:
-      0 1px 0 0 rgba(26, 26, 26, 0.07),
-      0 1px 0 0 rgba(208, 208, 208, 0.4) inset,
-      1px 0 0 0 #cccccc inset,
-      -1px 0 0 0 #cccccc inset,
-      0 -1px 0 0 #cccccc inset;
+    @apply rounded-[1.25rem] border border-[#e3e6df] bg-white;
+    box-shadow: 0 1px 2px rgba(18, 32, 26, 0.04);
   }
-  /* Primary dark button with a subtle bevel */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-1.5 rounded-lg px-3 h-8 text-[13px] font-semibold text-white transition-colors disabled:opacity-60 disabled:pointer-events-none;
-    background: linear-gradient(180deg, #4a4a4a 0%, #303030 100%);
-    box-shadow:
-      0 -1px 0 1px rgba(0, 0, 0, 0.8) inset,
-      0 0 0 1px #303030 inset,
-      0 0.5px 0 1.5px rgba(255, 255, 255, 0.25) inset;
+    @apply inline-flex h-9 items-center justify-center gap-1.5 rounded-full bg-[#0b3d2c] px-4 text-[13px] font-semibold text-white transition-colors hover:bg-[#12523c] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0b3d2c] disabled:pointer-events-none disabled:opacity-50;
   }
-  .btn-primary:hover { background: #1a1a1a; }
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-1.5 rounded-lg px-3 h-8 text-[13px] font-semibold text-[#303030] bg-white transition-colors disabled:opacity-60 disabled:pointer-events-none;
-    box-shadow:
-      0 -1px 0 0 #b5b5b5 inset,
-      0 0 0 1px rgba(0, 0, 0, 0.1) inset,
-      0 0.5px 0 1.5px #ffffff inset;
+    @apply inline-flex h-9 items-center justify-center gap-1.5 rounded-full bg-white px-4 text-[13px] font-semibold text-[#12201a] ring-1 ring-[#d5dad3] transition-colors ring-inset hover:bg-[#f7f8f5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0b3d2c] disabled:pointer-events-none disabled:opacity-50;
   }
-  .btn-secondary:hover { background: #fafafa; }
   .btn-critical {
-    @apply inline-flex items-center justify-center gap-1.5 rounded-lg px-3 h-8 text-[13px] font-semibold text-white transition-colors disabled:opacity-60 disabled:pointer-events-none;
-    background: linear-gradient(180deg, #e51c00 0%, #c70a24 100%);
-    box-shadow: 0 -1px 0 1px rgba(142, 31, 11, 0.8) inset, 0 0 0 1px #8e1f0b inset;
+    @apply inline-flex h-9 items-center justify-center gap-1.5 rounded-full bg-white px-4 text-[13px] font-semibold text-[#b42318] ring-1 ring-[#f3c5c0] transition-colors ring-inset hover:bg-[#fef3f2] disabled:pointer-events-none disabled:opacity-50;
   }
   .field {
-    @apply block w-full rounded-lg border border-[#8a8a8a] bg-white px-3 py-1.5 text-[13px] text-[#303030] placeholder:text-[#8a8a8a] outline-none transition-shadow focus:border-[#005bd3] focus:ring-2 focus:ring-[#005bd3]/30 disabled:bg-[#f7f7f7] disabled:text-[#8a8a8a];
+    @apply block w-full rounded-xl border border-[#c9cfc7] bg-white px-3 py-2 text-sm text-[#12201a] outline-none transition-shadow placeholder:text-[#8a958e] focus:border-[#0b3d2c] focus:ring-3 focus:ring-[#0b3d2c]/15 disabled:bg-[#f7f8f5] disabled:text-[#8a958e];
   }
   .field-label {
-    @apply mb-1 block text-[13px] font-medium text-[#303030];
+    @apply mb-1.5 block text-[13px] font-medium text-[#12201a];
   }
   .field-help {
-    @apply mt-1 text-xs text-[#616161];
+    @apply mt-1.5 text-xs text-[#5d6b63];
   }
 }
 

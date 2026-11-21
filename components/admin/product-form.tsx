@@ -206,7 +206,7 @@ export function ProductForm({
                       if (dragIndex != null && dragIndex !== i) moveImage(dragIndex, i)
                       setDragIndex(null)
                     }}
-                    className={`group relative aspect-square overflow-hidden rounded-lg border border-[#e3e3e3] bg-[#f7f7f7] ${i === 0 ? "col-span-2 row-span-2" : ""}`}
+                    className={`group relative aspect-square overflow-hidden rounded-lg border border-[#e3e3e3] bg-[#f7f8f5] ${i === 0 ? "col-span-2 row-span-2" : ""}`}
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={src} alt="" className="size-full object-cover" />
@@ -229,7 +229,7 @@ export function ProductForm({
                     e.preventDefault()
                     if (dragIndex == null) onFiles(e.dataTransfer.files)
                   }}
-                  className={`grid aspect-square place-items-center rounded-lg border-2 border-dashed border-[#b5b5b5] text-[13px] text-[#616161] hover:bg-[#f7f7f7] ${form.images.length === 0 ? "col-span-3 aspect-[3/1] sm:col-span-4" : ""}`}
+                  className={`grid place-items-center rounded-xl border-2 border-dashed border-[#b9c2bc] text-[13px] text-[#5d6b63] hover:bg-[#f7f8f5] ${form.images.length === 0 ? "col-span-3 aspect-[3/1] sm:col-span-4" : "aspect-square"}`}
                 >
                   {uploading ? (
                     <Loader2 className="size-5 animate-spin" />
@@ -243,8 +243,8 @@ export function ProductForm({
               </div>
               <input ref={fileRef} type="file" accept="image/*" multiple hidden onChange={(e) => onFiles(e.target.files)} />
               <div className="mt-3 flex gap-2">
-                <label className="flex flex-1 items-center gap-2 rounded-lg border border-[#d4d4d4] px-2.5">
-                  <Link2 className="size-4 text-[#8a8a8a]" />
+                <label className="flex flex-1 items-center gap-2 rounded-lg border border-[#d5dad3] px-2.5">
+                  <Link2 className="size-4 text-[#8a958e]" />
                   <input
                     value={imageUrl}
                     onChange={(e) => setImageUrl(e.target.value)}
@@ -262,7 +262,7 @@ export function ProductForm({
                 <MoneyField label="Price" value={form.price} onChange={(v) => set("price", v)} currency={currency} />
                 <MoneyField label="Compare-at price" value={form.compare_at_price} onChange={(v) => set("compare_at_price", v)} currency={currency} help="Shows as a sale price when higher than Price" />
               </div>
-              <div className="mt-4 grid gap-4 border-t border-[#ebebeb] pt-4 sm:grid-cols-3">
+              <div className="mt-4 grid gap-4 border-t border-[#eceee9] pt-4 sm:grid-cols-3">
                 <MoneyField label="Cost per item" value={form.cost} onChange={(v) => set("cost", v)} currency={currency} help="Customers won’t see this" />
                 <ReadOnly label="Profit" value={profit != null ? formatMoney(profit, currency) : "--"} />
                 <ReadOnly label="Margin" value={margin != null ? `${margin.toFixed(1)}%` : "--"} />
@@ -271,7 +271,7 @@ export function ProductForm({
 
             <Card title="Inventory">
               <label className="flex items-center gap-2 text-[13px]">
-                <input type="checkbox" className="size-4 accent-[#303030]" checked={form.track_inventory} onChange={(e) => set("track_inventory", e.target.checked)} />
+                <input type="checkbox" className="size-4 accent-[#12201a]" checked={form.track_inventory} onChange={(e) => set("track_inventory", e.target.checked)} />
                 Track quantity
               </label>
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -344,7 +344,7 @@ function MoneyField({
     <div>
       <label className="field-label" htmlFor={id}>{label}</label>
       <div className="relative">
-        <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-[13px] text-[#616161]">{currency}</span>
+        <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-[13px] text-[#5d6b63]">{currency}</span>
         <input
           id={id}
           type="number"
@@ -366,7 +366,7 @@ function ReadOnly({ label, value }: { label: string; value: string }) {
   return (
     <div>
       <p className="field-label">{label}</p>
-      <p className="rounded-lg bg-[#f7f7f7] px-3 py-1.5 text-[13px] text-[#616161]">{value}</p>
+      <p className="rounded-lg bg-[#f7f8f5] px-3 py-1.5 text-[13px] text-[#5d6b63]">{value}</p>
     </div>
   )
 }
