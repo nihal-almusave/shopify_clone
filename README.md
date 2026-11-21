@@ -58,7 +58,7 @@ The schema lives in `supabase/migrations/`. Demo data is in `supabase/seed.sql`.
    If you use the Vercel ↔ Supabase integration, the Supabase variables are added for you.
 3. In Supabase → Authentication → URL Configuration, set **Site URL** to your production URL and add `https://<your-domain>/auth/callback` to **Redirect URLs** (add your preview URLs too if you test sign-ups there).
 4. Deploy.
-5. Optional but recommended: in Supabase → Authentication → Emails → Templates, paste `supabase/templates/reset-password.html` into **Reset password** (and `confirm-signup.html` into **Confirm signup** if email confirmation is on). These links work on any device; Supabase's default links only work in the browser that requested them.
+5. Password reset links work on any device out of the box: the reset email is requested from the server (`lib/password-reset.ts`) and its link lands on `/auth/reset`. No email template changes are needed. Branded templates are in `supabase/templates/`; Supabase only lets you install them once custom SMTP is configured (or on a paid plan).
 6. Supabase's built-in email sender only delivers to your own team's addresses, about 2 emails an hour. For real customers, connect your own SMTP provider (e.g. Resend) under Authentication → Emails → SMTP Settings.
 
 ### Card payments (optional)
