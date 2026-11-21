@@ -21,23 +21,23 @@ export function Page({
   narrow?: boolean
 }) {
   return (
-    <div className={cn("mx-auto w-full px-4 py-5 sm:px-6", narrow ? "max-w-[62.375rem]" : "max-w-[75rem]")}>
-      <div className="mb-4 flex flex-wrap items-center gap-2">
+    <div className={cn("mx-auto w-full px-4 py-6 sm:px-8 sm:py-8", narrow ? "max-w-[64rem]" : "max-w-[76rem]")}>
+      <div className="mb-6 flex flex-wrap items-center gap-3">
         {backHref && (
           <Link
             href={backHref}
             aria-label="Back"
-            className="grid size-7 place-items-center rounded-md text-[#4a4a4a] hover:bg-black/5"
+            className="grid size-9 place-items-center rounded-full bg-white text-[#3d4a43] ring-1 ring-[#d5dad3] ring-inset hover:bg-[#f7f8f5]"
           >
             <ArrowLeft className="size-4" />
           </Link>
         )}
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <h1 className="truncate text-xl font-bold tracking-tight text-[#303030]">{title}</h1>
+            <h1 className="truncate font-display text-[28px] leading-tight font-bold tracking-[-0.03em] text-[#12201a]">{title}</h1>
             {badges}
           </div>
-          {subtitle && <p className="mt-0.5 text-[13px] text-[#616161]">{subtitle}</p>}
+          {subtitle && <p className="mt-1 text-sm text-[#5d6b63]">{subtitle}</p>}
         </div>
         {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
       </div>
@@ -60,10 +60,10 @@ export function Card({
   flush?: boolean
 }) {
   return (
-    <section className={cn("surface", flush ? "overflow-hidden" : "p-4", className)}>
+    <section className={cn("surface", flush ? "overflow-hidden" : "p-5", className)}>
       {(title || action) && (
-        <div className={cn("mb-3 flex items-center justify-between gap-2", flush && "mb-0 px-4 pt-4 pb-3")}>
-          {title && <h2 className="text-sm font-semibold text-[#303030]">{title}</h2>}
+        <div className={cn("mb-4 flex items-center justify-between gap-2", flush && "mb-0 px-5 pt-5 pb-4")}>
+          {title && <h2 className="text-[15px] font-semibold text-[#12201a]">{title}</h2>}
           {action}
         </div>
       )}
@@ -80,7 +80,7 @@ const toneClasses: Record<Tone, string> = {
   warning: "bg-[#ffd6a4] text-[#5e4200]",
   critical: "bg-[#fedad9] text-[#8e0b21]",
   info: "bg-[#e0f0ff] text-[#00527c]",
-  neutral: "bg-[#e3e3e3] text-[#616161]",
+  neutral: "bg-[#e3e3e3] text-[#5d6b63]",
   draft: "bg-[#eaf4ff] text-[#004299]",
 }
 
@@ -90,8 +90,8 @@ const dotClasses: Record<Tone, string> = {
   warning: "bg-[#b28400]",
   critical: "bg-[#e22c38]",
   info: "bg-[#0094d5]",
-  neutral: "bg-[#8a8a8a]",
-  draft: "bg-[#005bd3]",
+  neutral: "bg-[#8a958e]",
+  draft: "bg-[#0b3d2c]",
 }
 
 export function Badge({
@@ -150,14 +150,14 @@ export function productStatusBadge(status: string) {
 export function Thumbnail({ src, alt, size = 40 }: { src?: string | null; alt: string; size?: number }) {
   return (
     <div
-      className="grid shrink-0 place-items-center overflow-hidden rounded-lg border border-[#e3e3e3] bg-[#f7f7f7]"
+      className="grid shrink-0 place-items-center overflow-hidden rounded-xl border border-[#e3e6df] bg-[#f7f8f5]"
       style={{ width: size, height: size }}
     >
       {src ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={src} alt={alt} className="size-full object-cover" />
       ) : (
-        <ImageIcon className="size-4 text-[#8a8a8a]" aria-hidden />
+        <ImageIcon className="size-4 text-[#8a958e]" aria-hidden />
       )}
     </div>
   )
@@ -176,9 +176,9 @@ export function EmptyState({
 }) {
   return (
     <div className="flex flex-col items-center px-6 py-14 text-center">
-      {icon && <div className="mb-4 grid size-16 place-items-center rounded-full bg-[#f1f1f1] text-[#8a8a8a]">{icon}</div>}
-      <h3 className="text-base font-semibold text-[#303030]">{heading}</h3>
-      {children && <p className="mt-1 max-w-sm text-[13px] text-[#616161]">{children}</p>}
+      {icon && <div className="mb-4 grid size-16 place-items-center rounded-2xl bg-[#f2f3ef] text-[#0b3d2c]">{icon}</div>}
+      <h3 className="font-display text-xl font-bold tracking-[-0.02em] text-[#12201a]">{heading}</h3>
+      {children && <p className="mt-1 max-w-sm text-[13px] text-[#5d6b63]">{children}</p>}
       {action && <div className="mt-4">{action}</div>}
     </div>
   )
@@ -201,8 +201,8 @@ export function Banner({
   }[tone]
   return (
     <div className={cn("rounded-xl border-l-4 px-4 py-3", styles)}>
-      <p className="text-[13px] font-semibold text-[#303030]">{title}</p>
-      {children && <div className="mt-0.5 text-[13px] text-[#4a4a4a]">{children}</div>}
+      <p className="text-[13px] font-semibold text-[#12201a]">{title}</p>
+      {children && <div className="mt-0.5 text-[13px] text-[#3d4a43]">{children}</div>}
     </div>
   )
 }

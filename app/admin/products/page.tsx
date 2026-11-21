@@ -65,15 +65,15 @@ export default async function ProductsPage({
         </Card>
       ) : (
         <Card flush>
-          <div className="flex flex-wrap items-center gap-2 border-b border-[#ebebeb] p-2">
+          <div className="flex flex-wrap items-center gap-2 border-b border-[#eceee9] p-2">
             <div className="flex gap-1">
               {TABS.map((t) => (
                 <Link
                   key={t.key}
                   href={href(t.key)}
                   className={cn(
-                    "rounded-lg px-3 py-1.5 text-[13px] font-medium",
-                    status === t.key ? "bg-[#ebebeb] text-[#303030]" : "text-[#616161] hover:bg-[#f1f1f1]",
+                    "rounded-full px-3 py-1.5 text-[13px] font-medium",
+                    status === t.key ? "bg-[#0b3d2c] text-white" : "text-[#5d6b63] hover:bg-[#f2f3ef]",
                   )}
                 >
                   {t.label}
@@ -82,8 +82,8 @@ export default async function ProductsPage({
             </div>
             <form className="ml-auto flex w-full items-center sm:w-64" action="/admin/products">
               {status !== "all" && <input type="hidden" name="status" value={status} />}
-              <label className="flex w-full items-center gap-2 rounded-lg border border-[#d4d4d4] px-2.5 py-1">
-                <Search className="size-4 text-[#8a8a8a]" />
+              <label className="flex w-full items-center gap-2 rounded-full border border-[#d5dad3] bg-white px-3 py-1.5">
+                <Search className="size-4 text-[#8a958e]" />
                 <input name="q" defaultValue={q} placeholder="Search products" className="w-full text-[13px] outline-none" />
               </label>
             </form>
@@ -94,7 +94,7 @@ export default async function ProductsPage({
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full min-w-[640px] text-[13px]">
-                <thead className="bg-[#f7f7f7] text-left text-xs text-[#616161]">
+                <thead className="border-y border-[#eceee9] bg-[#f7f8f5] text-left text-xs text-[#5d6b63]">
                   <tr>
                     <th className="px-4 py-2 font-medium">Product</th>
                     <th className="px-3 py-2 font-medium">Status</th>
@@ -104,9 +104,9 @@ export default async function ProductsPage({
                     <th className="px-3 py-2 font-medium">Vendor</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#ebebeb]">
+                <tbody className="divide-y divide-[#eceee9]">
                   {products.map((p) => (
-                    <tr key={p.id} className="group hover:bg-[#f7f7f7]">
+                    <tr key={p.id} className="group hover:bg-[#f7f8f5]">
                       <td className="px-4 py-2">
                         <Link href={`/admin/products/${p.id}`} className="flex items-center gap-3 font-semibold">
                           <Thumbnail src={p.images?.[0]} alt={p.name} />
@@ -116,16 +116,16 @@ export default async function ProductsPage({
                       <td className="px-3 py-2">{productStatusBadge(p.status)}</td>
                       <td className="px-3 py-2">
                         {p.track_inventory ? (
-                          <span className={p.quantity <= 0 ? "text-[#8e0b21]" : "text-[#616161]"}>
+                          <span className={p.quantity <= 0 ? "text-[#8e0b21]" : "text-[#5d6b63]"}>
                             {p.quantity} in stock
                           </span>
                         ) : (
-                          <span className="text-[#8a8a8a]">Inventory not tracked</span>
+                          <span className="text-[#8a958e]">Inventory not tracked</span>
                         )}
                       </td>
                       <td className="px-3 py-2">{formatMoney(p.price, merchant.currency)}</td>
-                      <td className="px-3 py-2 text-[#616161]">{p.category || "—"}</td>
-                      <td className="px-3 py-2 text-[#616161]">{p.vendor || "—"}</td>
+                      <td className="px-3 py-2 text-[#5d6b63]">{p.category || "—"}</td>
+                      <td className="px-3 py-2 text-[#5d6b63]">{p.vendor || "—"}</td>
                     </tr>
                   ))}
                 </tbody>

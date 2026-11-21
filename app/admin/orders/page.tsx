@@ -64,15 +64,15 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
         </Card>
       ) : (
         <Card flush>
-          <div className="flex flex-wrap items-center gap-2 border-b border-[#ebebeb] p-2">
+          <div className="flex flex-wrap items-center gap-2 border-b border-[#eceee9] p-2">
             <div className="flex flex-wrap gap-1">
               {TABS.map((t) => (
                 <Link
                   key={t.key}
                   href={href(t.key)}
                   className={cn(
-                    "rounded-lg px-3 py-1.5 text-[13px] font-medium",
-                    tab === t.key ? "bg-[#ebebeb] text-[#303030]" : "text-[#616161] hover:bg-[#f1f1f1]",
+                    "rounded-full px-3 py-1.5 text-[13px] font-medium",
+                    tab === t.key ? "bg-[#0b3d2c] text-white" : "text-[#5d6b63] hover:bg-[#f2f3ef]",
                   )}
                 >
                   {t.label}
@@ -81,8 +81,8 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
             </div>
             <form className="ml-auto flex w-full sm:w-64" action="/admin/orders">
               {tab !== "all" && <input type="hidden" name="tab" value={tab} />}
-              <label className="flex w-full items-center gap-2 rounded-lg border border-[#d4d4d4] px-2.5 py-1">
-                <Search className="size-4 text-[#8a8a8a]" />
+              <label className="flex w-full items-center gap-2 rounded-full border border-[#d5dad3] bg-white px-3 py-1.5">
+                <Search className="size-4 text-[#8a958e]" />
                 <input name="q" defaultValue={q} placeholder="Search order #, name or email" className="w-full text-[13px] outline-none" />
               </label>
             </form>
@@ -92,7 +92,7 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full min-w-[760px] text-[13px]">
-                <thead className="bg-[#f7f7f7] text-left text-xs text-[#616161]">
+                <thead className="border-y border-[#eceee9] bg-[#f7f8f5] text-left text-xs text-[#5d6b63]">
                   <tr>
                     <th className="px-4 py-2 font-medium">Order</th>
                     <th className="px-3 py-2 font-medium">Date</th>
@@ -103,23 +103,23 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
                     <th className="px-3 py-2 font-medium">Items</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#ebebeb]">
+                <tbody className="divide-y divide-[#eceee9]">
                   {orders.map((o) => (
-                    <tr key={o.id} className={cn("relative hover:bg-[#f7f7f7]", o.status === "cancelled" && "text-[#8a8a8a]")}>
+                    <tr key={o.id} className={cn("relative hover:bg-[#f7f8f5]", o.status === "cancelled" && "text-[#8a958e]")}>
                       <td className="px-4 py-2.5 font-semibold">
                         <Link href={`/admin/orders/${o.id}`} className="after:absolute after:inset-0">
                           #{o.order_number}
                         </Link>
                       </td>
-                      <td className="px-3 py-2.5 whitespace-nowrap text-[#616161]">{formatDateTime(o.created_at)}</td>
+                      <td className="px-3 py-2.5 whitespace-nowrap text-[#5d6b63]">{formatDateTime(o.created_at)}</td>
                       <td className="px-3 py-2.5">{o.customer_name || o.email}</td>
                       <td className="px-3 py-2.5 text-right whitespace-nowrap">{formatMoney(o.total_price, o.currency)}</td>
                       <td className="px-3 py-2.5">
                         {o.status === "cancelled" ? <Badge tone="neutral">Cancelled</Badge> : paymentBadge(o.payment_status)}
                       </td>
                       <td className="px-3 py-2.5">{fulfillmentBadge(o.fulfillment_status)}</td>
-                      <td className="px-3 py-2.5 text-[#616161]">
-                        {o.order_items.reduce((s, i) => s + i.quantity, 0)} items
+                      <td className="px-3 py-2.5 text-[#5d6b63]">
+                        {(() => { const n = o.order_items.reduce((s, i) => s + i.quantity, 0); return `${n} ${n === 1 ? "item" : "items"}` })()}
                       </td>
                     </tr>
                   ))}

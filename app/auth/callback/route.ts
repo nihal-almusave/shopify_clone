@@ -18,6 +18,9 @@ export async function GET(request: NextRequest) {
       ? await supabase.auth.verifyOtp({ type, token_hash: tokenHash })
       : { error: new Error("Missing code") }
 
-  if (error) return NextResponse.redirect(`${origin}/auth/login?error=confirm`)
-  return NextResponse.redirect(`${origin}${next}`)
+  if (error) {
+    const failed = next === "/auth/update-password" || type === "recovery" ? "/auth/forgot-password?expired=1" : "/auth/login?error=confirm"
+    return NextResponse.redirect(`${origin}${failed}`)
+  }
+  return NextResponse.redirect(`${origin}${type === "recovery" ? "/auth/update-password" : next}`)
 }

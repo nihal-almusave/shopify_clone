@@ -13,7 +13,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (!user) redirect("/auth/login")
 
   const [{ data: store }, { count: pendingOrders }] = await Promise.all([
-    supabase.from("merchants").select("store_name, store_slug").eq("id", user.id).maybeSingle(),
+    supabase.from("merchants").select("store_name, store_slug, accent_color, logo_url").eq("id", user.id).maybeSingle(),
     supabase
       .from("orders")
       .select("id", { count: "exact", head: true })
@@ -26,8 +26,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   return (
     <AdminShell
-      storeName={store.store_name}
-      storeSlug={store.store_slug}
+      store={{ name: store.store_name, slug: store.store_slug, accent: store.accent_color, logo: store.logo_url }}
       email={user.email ?? ""}
       pendingOrders={pendingOrders ?? 0}
     >
