@@ -179,3 +179,15 @@
     @apply mt-1 text-xs text-[#616161];
   }
 }
+
+/* Landing hero: each new word rises into its slot */
+@keyframes hero-word-in {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+.hero-word { animation: hero-word-in 700ms cubic-bezier(.2, .8, .2, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-word { animation: none; }
+  html { scroll-behavior: auto; }
+}
+html { scroll-behavior: smooth; }
