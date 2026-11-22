@@ -36,7 +36,7 @@ export default async function StoreHome({
     .eq("status", "active")
     .order(selectedSort.column, { ascending: selectedSort.ascending })
   if (category) query = query.eq("category", category)
-  if (search) query = query.ilike("name", `%${search.replace(/[\\%_]/g, "\\\\$&")}%`)
+  if (search) query = query.ilike("name", `%${search}%`)
 
   const [{ data }, { data: cats }] = await Promise.all([
     query,
