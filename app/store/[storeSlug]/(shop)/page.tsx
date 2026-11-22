@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation"
+import { Search, SlidersHorizontal } from "lucide-react"
 import Link from "next/link"
 import { getStorefront } from "@/lib/storefront"
 import { createClient } from "@/lib/supabase/server"
@@ -18,10 +19,11 @@ export default async function StoreHome({
   searchParams,
 }: {
   params: Promise<{ storeSlug: string }>
-  searchParams: Promise<{ category?: string; sort?: string }>
+  searchParams: Promise<{ category?: string; sort?: string; q?: string }>
 }) {
   const { storeSlug } = await params
-  const { category, sort = "newest" } = await searchParams
+  const { category, sort = "newest", q = "" } = await searchParams
+  const search = q.trim().slice(0, 80)
   const store = await getStorefront(storeSlug)
   if (!store) notFound()
   const supabase = await createClient()
@@ -34,6 +36,7 @@ export default async function StoreHome({
     .eq("status", "active")
     .order(s.column, { ascending: s.ascending })
   if (category) q = q.eq("category", category)
+  if (search) q = q.ilike("name", `%${search.replace(/[\\%_]/g, "\\if (category) q = q.eq("category", category)")}%`)
   const [{ data }, { data: cats }] = await Promise.all([
     q,
     supabase.from("products").select("category").eq("merchant_id", store.id).eq("status", "active").not("category", "is", null),
@@ -42,7 +45,7 @@ export default async function StoreHome({
   const categories = [...new Set((cats ?? []).map((c) => c.category as string).filter(Boolean))].sort()
   const base = `/store/${storeSlug}`
   const link = (p: Record<string, string | undefined>) => {
-    const sp = new URLSearchParams(Object.entries({ category, sort: sort === "newest" ? undefined : sort, ...p }).filter(([, v]) => v) as [string, string][])
+    const sp = new URLSearchParams(Object.entries({ category, sort: sort === "newest" ? undefined : sort, q: search || undefined, ...p }).filter(([, v]) => v) as [string, string][])
     const qs = sp.toString()
     return `${base}${qs ? `?${qs}` : ""}#catalog`
   }
@@ -81,11 +84,18 @@ export default async function StoreHome({
       </section>
 
       <section id="catalog" className="mx-auto max-w-6xl scroll-mt-20 px-4 pt-14 sm:px-6">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <div className="mb-7 flex flex-col gap-5">\n        <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h2 className="font-display text-3xl font-bold tracking-tight">{category ?? "All products"}</h2>
             <p className="mt-1 text-sm text-neutral-500">{products.length} products</p>
           </div>
+          <form action={base} method="get" role="search" className="flex w-full max-w-md items-center gap-2 rounded-full border border-neutral-300 bg-white p-1.5 pl-4 shadow-sm transition focus-within:border-neutral-500 focus-within:ring-2 focus-within:ring-neutral-900/5">
+            {category && <input type="hidden" name="category" value={category} />}
+            {sort !== "newest" && <input type="hidden" name="sort" value={sort} />}
+            <Search className="size-4 shrink-0 text-neutral-400" aria-hidden="true" />
+            <input type="search" name="q" defaultValue={search} maxLength={80} placeholder="Search products" aria-label="Search products" className="min-w-0 flex-1 bg-transparent py-2 text-sm outline-none placeholder:text-neutral-400" />
+            <button type="submit" className="rounded-full px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: "var(--store-accent)" }}>Search</button>
+          </form>
           <div className="flex flex-wrap items-center gap-2">
             {categories.length > 0 && (
               <div className="flex flex-wrap gap-2">
@@ -98,7 +108,7 @@ export default async function StoreHome({
               </div>
             )}
             <details className="relative">
-              <summary className="cursor-pointer list-none rounded-full border border-neutral-300 px-4 py-2 text-sm">Sort: {s.label}</summary>
+              <summary className="flex cursor-pointer list-none items-center gap-2 rounded-full border border-neutral-300 px-3.5 py-2 text-sm transition hover:border-neutral-500"><SlidersHorizontal className="size-3.5" /> Sort: {s.label}</summary>
               <div className="absolute right-0 z-10 mt-2 w-52 rounded-xl border border-neutral-200 bg-white p-1.5 shadow-lg">
                 {Object.entries(SORTS).map(([k, v]) => (
                   <Link key={k} href={link({ sort: k === "newest" ? undefined : k })} className={cn("block rounded-lg px-3 py-2 text-sm hover:bg-neutral-100", k === sort && "font-semibold")}>
@@ -115,7 +125,7 @@ export default async function StoreHome({
             {category ? "No products in this category yet." : "This store is getting ready. Check back soon!"}
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-4">
             {products.map((p) => (
               <ProductCard key={p.id} product={p} storeSlug={storeSlug} currency={store.currency} />
             ))}
@@ -130,7 +140,7 @@ function Chip({ href, active, children }: { href: string; active: boolean; child
   return (
     <Link
       href={href}
-      className={cn("rounded-full border px-4 py-2 text-sm transition-colors", active ? "border-neutral-900 bg-neutral-900 text-white" : "border-neutral-300 hover:border-neutral-900")}
+      aria-current={active ? "true" : undefined}\n      className={cn("rounded-full border px-4 py-2 text-sm transition-colors", active ? "border-neutral-900 bg-neutral-900 text-white" : "border-neutral-300 hover:border-neutral-900")}
     >
       {children}
     </Link>
