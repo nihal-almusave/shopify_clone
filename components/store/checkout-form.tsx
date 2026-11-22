@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils"
 
 const COUNTRIES = [
   "Bangladesh", "United States", "Canada", "United Kingdom", "Australia", "New Zealand", "Germany", "France", "Netherlands",
-  "Spain", "Italy", "Ireland", "India", "Bangladesh", "Singapore", "Japan", "United Arab Emirates", "Other",
+  "Spain", "Italy", "Ireland", "India", "Singapore", "Japan", "United Arab Emirates", "Other",
 ]
 
 const input =
