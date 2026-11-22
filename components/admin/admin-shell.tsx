@@ -158,6 +158,7 @@ export function AdminShell({
           <button
             onClick={() => setAccount((a) => !a)}
             aria-expanded={account}
+            aria-label="Account menu"
             aria-controls="admin-account-menu"
             className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left hover:bg-[#f2f3ef]"
           >
@@ -171,10 +172,10 @@ export function AdminShell({
             <>
               <div className="fixed inset-0 z-40" onClick={() => setAccount(false)} />
               <div id="admin-account-menu" role="menu" aria-label="Account options" className="surface absolute bottom-full left-0 z-50 mb-2 w-full p-1.5 shadow-lg">
-                <Link href="/auth/update-password" className="flex items-center gap-2 rounded-lg px-2.5 py-2 text-[13px] hover:bg-[#f2f3ef]">
+                <Link href="/auth/update-password" role="menuitem" className="flex items-center gap-2 rounded-lg px-2.5 py-2 text-[13px] hover:bg-[#f2f3ef]">
                   <KeyRound className="size-4" /> Change password
                 </Link>
-                <button onClick={signOut} className="flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-[13px] hover:bg-[#f2f3ef]">
+                <button onClick={signOut} role="menuitem" className="flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-[13px] hover:bg-[#f2f3ef]">
                   <LogOut className="size-4" /> Log out
                 </button>
               </div>
