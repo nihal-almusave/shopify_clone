@@ -36,7 +36,7 @@ export default async function StoreHome({
     .eq("status", "active")
     .order(selectedSort.column, { ascending: selectedSort.ascending })
   if (category) query = query.eq("category", category)
-  if (search) query = query.ilike("name", \`%\${search.replace(/[\\%_]/g, "\\\\$&")}%\`)
+  if (search) query = query.ilike("name", `%${search.replace(/[\\%_]/g, "\\\\$&")}%`)
 
   const [{ data }, { data: cats }] = await Promise.all([
     query,
@@ -44,7 +44,7 @@ export default async function StoreHome({
   ])
   const products = (data ?? []) as Product[]
   const categories = [...new Set((cats ?? []).map((c) => c.category as string).filter(Boolean))].sort()
-  const base = \`/store/\${storeSlug}\`
+  const base = `/store/${storeSlug}`
   const link = (changes: Record<string, string | undefined>) => {
     const params = new URLSearchParams(
       Object.entries({
@@ -55,7 +55,7 @@ export default async function StoreHome({
       }).filter(([, value]) => value) as [string, string][],
     )
     const queryString = params.toString()
-    return \`\${base}\${queryString ? \`?\${queryString}\` : ""}#catalog\`
+    return `${base}${queryString ? `?${queryString}` : ""}#catalog`
   }
 
   return (
@@ -96,7 +96,7 @@ export default async function StoreHome({
               <p className="text-xs font-semibold tracking-[0.16em] text-neutral-500 uppercase">The collection</p>
               <h2 className="mt-1 font-display text-3xl font-bold tracking-tight sm:text-4xl">{category ?? "All products"}</h2>
               <p className="mt-1 text-sm text-neutral-500">
-                {products.length} {products.length === 1 ? "product" : "products"}{search ? \` matching “\${search}”\` : ""}
+                {products.length} {products.length === 1 ? "product" : "products"}{search ? ` matching “${search}”` : ""}
               </p>
             </div>
             <form action={base} method="get" role="search" className="flex w-full max-w-md items-center gap-2 rounded-full border border-neutral-300 bg-white p-1.5 pl-4 shadow-sm transition focus-within:border-neutral-500 focus-within:ring-2 focus-within:ring-neutral-900/5">
