@@ -51,9 +51,9 @@ export function HeroRotator() {
       />
 
       <div className="mx-auto w-full max-w-[84rem] px-5 pt-36 pb-10 sm:px-8 sm:pb-14">
-        <h1 className="font-display leading-[0.92] font-bold tracking-[-0.045em]" style={{ fontSize: "min(8.25rem, 10.5vw)" }}>
+        <h1 className="font-display text-[clamp(3.5rem,10.5vw,8.25rem)] leading-[0.92] font-bold tracking-[-0.045em]">
           <span className="block">Sell</span>
-          <span className="relative block h-[1.02em] overflow-hidden" aria-live="polite">
+          <span className="relative block h-[1.02em] overflow-hidden" aria-live="off">
             <span key={current.word} className="hero-word block whitespace-nowrap text-[#b9ffdc]">
               {current.word}
             </span>

@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useState } from "react"
-import { Loader2 } from "lucide-react"
+import { Eye, EyeOff, Loader2 } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 
 export function LoginForm() {
@@ -11,6 +11,7 @@ export function LoginForm() {
   const params = useSearchParams()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(
     params.get("error") === "confirm" ? "That confirmation link is invalid or expired. Try logging in or sign up again." : null,
   )
@@ -39,7 +40,7 @@ export function LoginForm() {
       <form onSubmit={submit} className="mt-6 grid gap-4">
         <div>
           <label className="field-label" htmlFor="email">Email</label>
-          <input id="email" type="email" autoComplete="email" required className="field py-2" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <input id="email" type="email" autoComplete="email" required className="field py-2.5" value={email} onChange={(e) => setEmail(e.target.value)} />
         </div>
         <div>
           <div className="flex items-baseline justify-between">
@@ -48,10 +49,10 @@ export function LoginForm() {
               Forgot password?
             </Link>
           </div>
-          <input id="password" type="password" autoComplete="current-password" required className="field py-2" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <div className="relative"><input id="password" type={showPassword ? "text" : "password"} autoComplete="current-password" required className="field py-2.5 pr-12" value={password} onChange={(e) => setPassword(e.target.value)} /><button type="button" onClick={() => setShowPassword((v) => !v)} aria-label={showPassword ? "Hide password" : "Show password"} aria-pressed={showPassword} className="absolute inset-y-0 right-2 grid w-9 place-items-center rounded-lg text-[#68756d] hover:bg-[#f2f3ef] focus-visible:outline-2 focus-visible:outline-[#0b3d2c]">{showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}</button></div>
         </div>
-        {error && <p className="rounded-lg bg-[#fee9e8] px-3 py-2 text-[13px] text-[#8e0b21]">{error}</p>}
-        <button type="submit" disabled={loading} className="btn-primary h-10 text-sm">
+        {error && <p role="alert" className="rounded-xl border border-[#f3c5c0] bg-[#fef3f2] px-3 py-2.5 text-[13px] text-[#8e0b21]">{error}</p>}
+        <button type="submit" disabled={loading} className="btn-primary h-11 text-sm">
           {loading && <Loader2 className="size-4 animate-spin" />} Log in
         </button>
       </form>

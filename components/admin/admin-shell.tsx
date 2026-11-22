@@ -41,6 +41,18 @@ export function AdminShell({
     setAccount(false)
   }, [pathname])
 
+  useEffect(() => {
+    if (!drawer && !account) return
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setDrawer(false)
+        setAccount(false)
+      }
+    }
+    window.addEventListener("keydown", onKeyDown)
+    return () => window.removeEventListener("keydown", onKeyDown)
+  }, [drawer, account])
+
   const isActive = (href: string, exact?: boolean) => (exact ? pathname === href : pathname === href || pathname.startsWith(href + "/"))
 
   const signOut = async () => {
@@ -146,6 +158,8 @@ export function AdminShell({
           <button
             onClick={() => setAccount((a) => !a)}
             aria-expanded={account}
+            aria-label="Account menu"
+            aria-controls="admin-account-menu"
             className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left hover:bg-[#f2f3ef]"
           >
             <span className="grid size-7 shrink-0 place-items-center rounded-full bg-[#dcfce9] text-xs font-bold text-[#0b3d2c]">
@@ -157,11 +171,11 @@ export function AdminShell({
           {account && (
             <>
               <div className="fixed inset-0 z-40" onClick={() => setAccount(false)} />
-              <div className="surface absolute bottom-full left-0 z-50 mb-2 w-full p-1.5 shadow-lg">
+              <div id="admin-account-menu" role="group" aria-label="Account options" className="surface absolute bottom-full left-0 z-50 mb-2 w-full p-1.5 shadow-lg">
                 <Link href="/auth/update-password" className="flex items-center gap-2 rounded-lg px-2.5 py-2 text-[13px] hover:bg-[#f2f3ef]">
                   <KeyRound className="size-4" /> Change password
                 </Link>
-                <button onClick={signOut} className="flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-[13px] hover:bg-[#f2f3ef]">
+                <button onClick={signOut} role="menuitem" className="flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-[13px] hover:bg-[#f2f3ef]">
                   <LogOut className="size-4" /> Log out
                 </button>
               </div>
@@ -177,7 +191,7 @@ export function AdminShell({
       <aside className="sticky top-0 hidden h-screen w-64 shrink-0 border-r border-[#e3e6df] bg-white lg:block">{sidebar}</aside>
 
       {drawer && (
-        <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-label="Navigation">
+        <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label="Navigation">
           <div className="absolute inset-0 bg-[#12201a]/40" onClick={() => setDrawer(false)} />
           <aside className="absolute inset-y-0 left-0 w-[284px] bg-white shadow-xl">
             <button
