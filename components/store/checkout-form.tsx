@@ -11,7 +11,7 @@ import { CheckoutHeader } from "@/components/store/checkout-header"
 import { cn } from "@/lib/utils"
 
 const COUNTRIES = [
-  "United States", "Canada", "United Kingdom", "Australia", "New Zealand", "Germany", "France", "Netherlands",
+  "Bangladesh", "United States", "Canada", "United Kingdom", "Australia", "New Zealand", "Germany", "France", "Netherlands",
   "Spain", "Italy", "Ireland", "India", "Bangladesh", "Singapore", "Japan", "United Arab Emirates", "Other",
 ]
 
@@ -35,7 +35,7 @@ export function CheckoutForm({ store, cardPayments }: { store: Storefront; cardP
   const [error, setError] = useState<string | null>(null)
   const [showSummary, setShowSummary] = useState(false)
   const [f, setF] = useState({
-    email: "", accepts_marketing: false, country: "United States", first_name: "", last_name: "",
+    email: "", accepts_marketing: false, country: "", first_name: "", last_name: "",
     address1: "", address2: "", city: "", province: "", postal_code: "", phone: "", note: "",
   })
   const set = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
@@ -149,7 +149,8 @@ export function CheckoutForm({ store, cardPayments }: { store: Storefront; cardP
               <h2 className="mb-3 text-xl font-semibold">Delivery</h2>
               <div className="grid gap-3">
                 <label className="relative block">
-                  <select value={f.country} onChange={set("country")} className={cn(input, "appearance-none")} autoComplete="country-name">
+                  <select value={f.country} onChange={set("country")} className={cn(input, "appearance-none")} autoComplete="country-name" required>
+                    <option value="" disabled>Select your country</option>
                     {COUNTRIES.map((c) => (
                       <option key={c}>{c}</option>
                     ))}
