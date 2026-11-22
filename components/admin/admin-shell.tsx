@@ -171,8 +171,8 @@ export function AdminShell({
           {account && (
             <>
               <div className="fixed inset-0 z-40" onClick={() => setAccount(false)} />
-              <div id="admin-account-menu" role="menu" aria-label="Account options" className="surface absolute bottom-full left-0 z-50 mb-2 w-full p-1.5 shadow-lg">
-                <Link href="/auth/update-password" role="menuitem" className="flex items-center gap-2 rounded-lg px-2.5 py-2 text-[13px] hover:bg-[#f2f3ef]">
+              <div id="admin-account-menu" role="group" aria-label="Account options" className="surface absolute bottom-full left-0 z-50 mb-2 w-full p-1.5 shadow-lg">
+                <Link href="/auth/update-password" className="flex items-center gap-2 rounded-lg px-2.5 py-2 text-[13px] hover:bg-[#f2f3ef]">
                   <KeyRound className="size-4" /> Change password
                 </Link>
                 <button onClick={signOut} role="menuitem" className="flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-[13px] hover:bg-[#f2f3ef]">
