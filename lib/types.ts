@@ -14,6 +14,7 @@ export type Merchant = {
   tax_rate: number
   shipping_rate: number
   free_shipping_threshold: number | null
+  theme_id: string | null
   created_at: string
 }
 
@@ -32,10 +33,11 @@ export type Storefront = Pick<
   | "tax_rate"
   | "shipping_rate"
   | "free_shipping_threshold"
+  | "theme_id"
 >
 
 export const STOREFRONT_COLUMNS =
-  "id, store_name, store_slug, description, logo_url, banner_url, favicon_url, announcement, accent_color, currency, tax_rate, shipping_rate, free_shipping_threshold"
+  "id, store_name, store_slug, description, logo_url, banner_url, favicon_url, announcement, accent_color, currency, tax_rate, shipping_rate, free_shipping_threshold, theme_id"
 
 export type ProductStatus = "active" | "draft" | "archived"
 

@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { Search, SlidersHorizontal } from "lucide-react"
-import { getStorefront } from "@/lib/storefront"
+import { getStorefront, getStoreTheme } from "@/lib/storefront"
+import { StoreHero } from "@/components/store/store-hero"
 import { createClient } from "@/lib/supabase/server"
 import type { Product } from "@/lib/types"
 import { ProductCard } from "@/components/store/product-card"
@@ -26,6 +27,7 @@ export default async function StoreHome({
   const search = rawQuery.trim().slice(0, 80)
   const store = await getStorefront(storeSlug)
   if (!store) notFound()
+  const tokens = await getStoreTheme(store.theme_id)
   const supabase = await createClient()
   const selectedSort = SORTS[sort as keyof typeof SORTS] ?? SORTS.newest
 
@@ -60,34 +62,7 @@ export default async function StoreHome({
 
   return (
     <>
-      <section className="relative isolate overflow-hidden">
-        {store.banner_url ? (
-          <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={store.banner_url} alt="" className="absolute inset-0 -z-10 size-full object-cover" />
-            <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black/65 via-black/25 to-black/10" />
-          </>
-        ) : (
-          <div
-            className="absolute inset-0 -z-10"
-            style={{
-              background: "radial-gradient(80rem 30rem at 0% 0%, color-mix(in srgb, var(--store-accent) 35%, white) 0%, transparent 60%), radial-gradient(60rem 30rem at 100% 100%, color-mix(in srgb, var(--store-accent) 20%, white) 0%, #fafafa 70%)",
-            }}
-          />
-        )}
-        <div className={cn("mx-auto flex min-h-[340px] max-w-6xl flex-col justify-end px-4 py-14 sm:min-h-[440px] sm:px-6", store.banner_url && "text-white")}>
-          <p className={cn("mb-3 text-xs font-semibold tracking-[0.18em] uppercase", store.banner_url ? "text-white/75" : "text-neutral-500")}>Welcome to</p>
-          <h1 className="max-w-2xl font-display text-4xl leading-[1.05] font-bold tracking-tight sm:text-6xl">{store.store_name}</h1>
-          {store.description && <p className={cn("mt-4 max-w-xl text-lg leading-relaxed", store.banner_url ? "text-white/85" : "text-neutral-600")}>{store.description}</p>}
-          <Link
-            href="#catalog"
-            className={cn("mt-8 inline-flex h-12 w-fit items-center rounded-full px-7 text-sm font-semibold transition-transform hover:-translate-y-0.5", store.banner_url ? "bg-white text-neutral-900" : "text-white")}
-            style={store.banner_url ? undefined : { background: "var(--store-accent)" }}
-          >
-            Explore collection
-          </Link>
-        </div>
-      </section>
+      <StoreHero store={store} layout={tokens?.hero ?? "image"} />
 
       <section id="catalog" className="mx-auto max-w-6xl scroll-mt-20 px-4 pt-12 pb-20 sm:px-6 sm:pt-16">
         <div className="mb-7 flex flex-col gap-5">

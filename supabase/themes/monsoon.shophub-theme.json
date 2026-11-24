@@ -1,0 +1,5 @@
+{
+  "name": "Monsoon",
+  "description": "Deep teal and rain-grey, serif headings, split hero.",
+  "tokens": { "background": "#f4f7f7", "surface": "#e3ecec", "text": "#0f2a2e", "muted": "#557074", "border": "#cddcdc", "accent": "#0e6b73", "headingFont": "serif", "corners": "rounded", "hero": "split" }
+}

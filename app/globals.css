@@ -172,3 +172,33 @@
   html { scroll-behavior: auto; }
 }
 html { scroll-behavior: smooth; }
+
+/*
+ * Storefront themes. Store pages keep their Tailwind classes; inside .store-theme
+ * the neutral palette, corners and heading font follow the active theme's tokens
+ * (set as --store-* variables on the wrapper by lib/themes.ts).
+ */
+.store-theme { background-color: var(--store-bg); color: var(--store-text); }
+.store-theme .bg-white { background-color: var(--store-bg); }
+.store-theme .bg-white\/90 { background-color: color-mix(in srgb, var(--store-bg) 90%, transparent); }
+.store-theme :is(.bg-neutral-50, .bg-neutral-100) { background-color: var(--store-surface); }
+.store-theme :is(.text-neutral-800, .text-neutral-900, .text-neutral-950) { color: var(--store-text); }
+.store-theme :is(.text-neutral-300, .text-neutral-400, .text-neutral-500, .text-neutral-600, .text-neutral-700) { color: var(--store-muted); }
+.store-theme :is(.border-neutral-100, .border-neutral-200, .border-neutral-300) { border-color: var(--store-border); }
+.store-theme :is(.divide-neutral-100, .divide-neutral-200) > :not(:last-child) { border-color: var(--store-border); }
+.store-theme .border-neutral-900 { border-color: var(--store-text); }
+.store-theme .bg-neutral-900 { background-color: var(--store-text); color: var(--store-bg); }
+.store-theme .hover\:bg-neutral-100:hover { background-color: var(--store-surface); }
+.store-theme .hover\:bg-neutral-900:hover { background-color: var(--store-text); }
+.store-theme .hover\:text-white:hover { color: var(--store-bg); }
+.store-theme .hover\:text-neutral-900:hover { color: var(--store-text); }
+.store-theme .hover\:border-neutral-900:hover { border-color: var(--store-text); }
+.store-theme .font-display { font-family: var(--store-heading); }
+/* Text on accent-colored buttons and badges stays readable on light accents (e.g. mint) */
+.store-theme .text-white[style*="--store-accent"] { color: var(--store-on-accent); }
+.store-theme :is(.rounded-xl, .rounded-2xl, .rounded-3xl) { border-radius: var(--store-radius); }
+.store-theme :is(a, button).rounded-full,
+.store-theme summary.rounded-full,
+.store-theme label.rounded-full,
+.store-theme input.rounded-full,
+.store-theme div.rounded-full:has(> button) { border-radius: var(--store-btn-radius); }

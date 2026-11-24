@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { useEffect, useState, type ReactNode } from "react"
-import { ChevronsUpDown, ExternalLink, Home, Inbox, KeyRound, LogOut, Menu, Search, Settings, Tag, Users, X } from "lucide-react"
+import { BarChart3, ChevronsUpDown, ExternalLink, Home, Inbox, KeyRound, LogOut, Menu, Search, Settings, Tag, Users, X } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { cn } from "@/lib/utils"
 import { Logo } from "@/components/logo"
@@ -23,11 +23,13 @@ export function AdminShell({
   store,
   email,
   pendingOrders,
+  isPlatformAdmin = false,
   children,
 }: {
   store: Store
   email: string
   pendingOrders: number
+  isPlatformAdmin?: boolean
   children: ReactNode
 }) {
   const pathname = usePathname()
@@ -172,6 +174,11 @@ export function AdminShell({
             <>
               <div className="fixed inset-0 z-40" onClick={() => setAccount(false)} />
               <div id="admin-account-menu" role="group" aria-label="Account options" className="surface absolute bottom-full left-0 z-50 mb-2 w-full p-1.5 shadow-lg">
+                {isPlatformAdmin && (
+                  <Link href="/platform" className="flex items-center gap-2 rounded-lg px-2.5 py-2 text-[13px] font-medium text-[#0b3d2c] hover:bg-[#f2f3ef]">
+                    <BarChart3 className="size-4" /> Platform dashboard
+                  </Link>
+                )}
                 <Link href="/auth/update-password" className="flex items-center gap-2 rounded-lg px-2.5 py-2 text-[13px] hover:bg-[#f2f3ef]">
                   <KeyRound className="size-4" /> Change password
                 </Link>

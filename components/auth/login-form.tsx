@@ -17,7 +17,7 @@ export function LoginForm() {
   )
   const [loading, setLoading] = useState(false)
 
-  const next = params.get("next")?.startsWith("/admin") ? params.get("next")! : "/admin"
+  const next = /^\/(admin|platform)(\/|$)/.test(params.get("next") ?? "") ? params.get("next")! : "/admin"
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()

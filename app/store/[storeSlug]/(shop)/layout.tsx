@@ -1,6 +1,8 @@
 import type React from "react"
 import Link from "next/link"
-import { getStorefront } from "@/lib/storefront"
+import { getStorefront, getStoreTheme } from "@/lib/storefront"
+import { themeStyle } from "@/lib/themes"
+import { PageViewTracker } from "@/components/store/page-view-tracker"
 import { StoreHeader } from "@/components/store/store-header"
 import { CartDrawer } from "@/components/store/cart-drawer"
 
@@ -13,8 +15,10 @@ export default async function ShopLayout({
 }) {
   const { storeSlug } = await params
   const store = await getStorefront(storeSlug)
+  const tokens = await getStoreTheme(store?.theme_id ?? null)
   return (
-    <>
+    <div className="store-theme min-h-screen" style={themeStyle(tokens, store?.accent_color ?? "#008060")}>
+      <PageViewTracker slug={storeSlug} />
       <StoreHeader />
       <main>{children}</main>
       <CartDrawer />
@@ -29,6 +33,6 @@ export default async function ShopLayout({
           </p>
         </div>
       </footer>
-    </>
+    </div>
   )
 }

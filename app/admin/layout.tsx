@@ -12,7 +12,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   } = await supabase.auth.getUser()
   if (!user) redirect("/auth/login")
 
-  const [{ data: store }, { count: pendingOrders }] = await Promise.all([
+  const [{ data: store }, { count: pendingOrders }, { data: isPlatformAdmin }] = await Promise.all([
     supabase.from("merchants").select("store_name, store_slug, accent_color, logo_url").eq("id", user.id).maybeSingle(),
     supabase
       .from("orders")
@@ -20,6 +20,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       .eq("merchant_id", user.id)
       .eq("fulfillment_status", "unfulfilled")
       .neq("status", "cancelled"),
+    supabase.rpc("is_platform_admin"),
   ])
 
   if (!store) redirect("/auth/login?error=no-store")
@@ -29,6 +30,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       store={{ name: store.store_name, slug: store.store_slug, accent: store.accent_color, logo: store.logo_url }}
       email={user.email ?? ""}
       pendingOrders={pendingOrders ?? 0}
+      isPlatformAdmin={!!isPlatformAdmin}
     >
       {children}
     </AdminShell>

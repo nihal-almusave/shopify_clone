@@ -27,7 +27,7 @@ export async function updateSession(request: NextRequest) {
 
   const path = request.nextUrl.pathname
 
-  if (path.startsWith("/admin") && !user) {
+  if ((path.startsWith("/admin") || path.startsWith("/platform")) && !user) {
     const redirect = request.nextUrl.clone()
     redirect.pathname = "/auth/login"
     redirect.searchParams.set("next", path)

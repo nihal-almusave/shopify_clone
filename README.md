@@ -71,6 +71,23 @@ To accept cards:
 
 Shoppers are sent to Stripe Checkout and the order is marked paid when they return (and again, idempotently, by the webhook).
 
+## Platform admin (`/platform`)
+
+Only accounts listed in the `platform_admins` table can open it (everyone else gets a 404). Platform admins also see a **Platform dashboard** link in their store admin's account menu.
+
+- **Overview**: stores, active stores, products, orders, visitors and conversion for 7/30/90 days; charts for storefront traffic, orders, new stores and merchant activity; top stores, sales by currency and themes in use.
+- **Stores**: every store with its theme, products, orders, sales, visitors and last activity.
+- **Themes**: design presets (colors, heading font, corners, homepage hero layout, optional preview image). Create them in the editor or upload a theme file; published themes show up in every merchant's Settings → Theme. Example file: `supabase/themes/monsoon.shophub-theme.json`.
+
+Tracking:
+- Storefront visits are counted anonymously by `/api/track`: the visitor id is a daily-rotating hash, no cookies are set and IP addresses are never stored. Bots and headless browsers are ignored. Optionally set `TRACKING_SALT` to a random secret in Vercel.
+- Merchant activity (logins, products added/edited, orders fulfilled, settings changed) is recorded by database triggers.
+
+To add another platform admin, run in the Supabase SQL editor:
+```sql
+insert into public.platform_admins (user_id) select id from auth.users where email = 'someone@example.com';
+```
+
 ## Project structure
 
 ```
