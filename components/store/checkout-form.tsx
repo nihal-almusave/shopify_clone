@@ -131,12 +131,12 @@ export function CheckoutForm({ store, cardPayments }: { store: Storefront; cardP
       </button>
       {showSummary && <div className="border-b border-neutral-200 bg-neutral-50 px-4 py-6 lg:hidden">{summary}</div>}
 
-      <div className="lg:grid lg:min-h-[calc(100vh-4rem)] lg:grid-cols-[1fr_minmax(0,1fr)]">
+      <div className="lg:grid lg:min-h-[calc(100vh-4rem)] lg:grid-cols-[1.05fr_0.95fr]">
         <div className="flex justify-end">
-          <form onSubmit={submit} className="w-full max-w-[560px] px-4 py-8 sm:px-6 lg:pr-12 lg:pl-6">
+          <form onSubmit={submit} className="w-full max-w-[600px] px-4 py-10 sm:px-6 lg:pr-14 lg:pl-8">
             <section>
               <div className="mb-3 flex items-baseline justify-between">
-                <h2 className="text-xl font-semibold">Contact</h2>
+                <h2 className="font-display text-xl font-semibold tracking-tight">Contact</h2>
               </div>
               <Field label="Email" type="email" autoComplete="email" required value={f.email} onChange={set("email")} />
               <label className="mt-3 flex items-center gap-2 text-sm">
@@ -146,7 +146,7 @@ export function CheckoutForm({ store, cardPayments }: { store: Storefront; cardP
             </section>
 
             <section className="mt-8">
-              <h2 className="mb-3 text-xl font-semibold">Delivery</h2>
+              <h2 className="mb-4 font-display text-xl font-semibold tracking-tight">Delivery</h2>
               <div className="grid gap-3">
                 <label className="relative block">
                   <select value={f.country} onChange={set("country")} className={cn(input, "appearance-none")} autoComplete="country-name" required>
@@ -174,15 +174,15 @@ export function CheckoutForm({ store, cardPayments }: { store: Storefront; cardP
             </section>
 
             <section className="mt-8">
-              <h2 className="mb-3 text-xl font-semibold">Shipping method</h2>
-              <div className="flex items-center justify-between rounded-lg border px-4 py-4 text-sm" style={{ borderColor: "var(--store-accent)", background: "color-mix(in srgb, var(--store-accent) 6%, white)" }}>
+              <h2 className="mb-4 font-display text-xl font-semibold tracking-tight">Shipping method</h2>
+              <div className="flex items-center justify-between rounded-2xl border px-4 py-5 text-sm" style={{ borderColor: "var(--store-accent)", background: "color-mix(in srgb, var(--store-accent) 6%, white)" }}>
                 <span>{shipping === 0 ? "Free shipping" : "Standard shipping"}</span>
                 <span className="font-semibold">{shipping === 0 ? "Free" : money(shipping)}</span>
               </div>
             </section>
 
             <section className="mt-8">
-              <h2 className="text-xl font-semibold">Payment</h2>
+              <h2 className="font-display text-xl font-semibold tracking-tight">Payment</h2>
               <p className="mb-3 flex items-center gap-1 text-sm text-neutral-500">
                 <Lock className="size-3.5" /> All transactions are secure and encrypted.
               </p>
@@ -210,7 +210,7 @@ export function CheckoutForm({ store, cardPayments }: { store: Storefront; cardP
             <button
               type="submit"
               disabled={submitting || !ready}
-              className="mt-6 flex h-14 w-full items-center justify-center gap-2 rounded-lg text-base font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
+              className="mt-7 flex h-14 w-full items-center justify-center gap-2 rounded-full text-base font-semibold text-white transition-all hover:-translate-y-0.5 hover:opacity-90 hover:shadow-lg disabled:opacity-60"
               style={{ background: "var(--store-accent)" }}
             >
               {submitting && <Loader2 className="size-5 animate-spin" />}

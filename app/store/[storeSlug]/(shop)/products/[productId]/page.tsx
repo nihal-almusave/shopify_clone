@@ -51,8 +51,8 @@ export default async function ProductPage({ params }: { params: Params }) {
   const { data: related } = await relatedQ
 
   return (
-    <div className="mx-auto max-w-6xl px-4 pt-8 sm:px-6">
-      <nav className="mb-6 text-sm text-neutral-500">
+    <div className="mx-auto max-w-[1320px] px-4 pt-8 sm:px-6">
+      <nav className="mb-8 text-xs font-medium text-neutral-500">
         <Link href={`/store/${storeSlug}`} className="hover:text-neutral-900">Home</Link>
         {product.category && (
           <>
@@ -63,13 +63,13 @@ export default async function ProductPage({ params }: { params: Params }) {
           </>
         )}
       </nav>
-      <div className="grid gap-10 md:grid-cols-[1.1fr_1fr] lg:gap-16">
+      <div className="grid gap-8 md:grid-cols-[1.08fr_0.92fr] md:gap-12 lg:gap-20">
         <ProductGallery images={product.images} name={product.name} />
-        <div className="md:sticky md:top-24 md:self-start">
+        <div className="md:sticky md:top-28 md:self-start md:py-5">
           {product.vendor && <p className="text-xs font-semibold tracking-[0.14em] text-neutral-500 uppercase">{product.vendor}</p>}
-          <h1 className="mt-1 font-display text-3xl leading-tight font-bold tracking-tight sm:text-4xl">{product.name}</h1>
-          <div className="mt-4 flex items-center gap-3">
-            <span className="text-2xl font-semibold" style={onSale ? { color: "var(--store-accent)" } : undefined}>
+          <h1 className="mt-3 font-display text-3xl leading-[1.05] font-bold tracking-tight sm:text-5xl">{product.name}</h1>
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <span className="text-3xl font-semibold tracking-tight" style={onSale ? { color: "var(--store-accent)" } : undefined}>
               {formatMoney(product.price, store.currency)}
             </span>
             {onSale && (
@@ -90,12 +90,12 @@ export default async function ProductPage({ params }: { params: Params }) {
           />
 
           {product.description && (
-            <div className="mt-8 border-t border-neutral-200 pt-6 text-[15px] leading-relaxed whitespace-pre-line text-neutral-700">
+            <div className="mt-9 border-t border-neutral-200 pt-7 text-[15px] leading-7 whitespace-pre-line text-neutral-700">
               {product.description}
             </div>
           )}
 
-          <ul className="mt-8 grid gap-3 border-t border-neutral-200 pt-6 text-sm text-neutral-600">
+          <ul className="mt-9 grid gap-4 border-t border-neutral-200 pt-7 text-sm text-neutral-600">
             <li className="flex items-center gap-3">
               <Truck className="size-4" />
               {store.free_shipping_threshold != null

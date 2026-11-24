@@ -21,7 +21,7 @@ export function AddToCart({
   const router = useRouter()
 
   return (
-    <div className="mt-8 grid gap-3">
+    <div className="mt-9 grid gap-4 border-y border-neutral-200 py-7">
       {lowStock != null && (
         <p className="flex items-center gap-2 text-sm text-amber-700">
           <span className="size-2 rounded-full bg-amber-500" /> Only {lowStock} left in stock
@@ -32,7 +32,7 @@ export function AddToCart({
         <button
           disabled={soldOut}
           onClick={() => add(line, qty)}
-          className="h-11 flex-1 rounded-full border-2 border-neutral-900 text-sm font-semibold transition-colors hover:bg-neutral-900 hover:text-white disabled:cursor-not-allowed disabled:border-neutral-300 disabled:text-neutral-400 disabled:hover:bg-transparent"
+          className="h-12 flex-1 rounded-full border border-neutral-900 text-sm font-semibold transition-colors hover:bg-neutral-900 hover:text-white disabled:cursor-not-allowed disabled:border-neutral-300 disabled:text-neutral-400 disabled:hover:bg-transparent"
         >
           {soldOut ? "Sold out" : "Add to cart"}
         </button>
@@ -43,7 +43,7 @@ export function AddToCart({
             add(line, qty)
             router.push(`/store/${store.store_slug}/checkout`)
           }}
-          className="h-12 rounded-full text-sm font-semibold text-white transition-opacity hover:opacity-90"
+          className="h-12 rounded-full text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:opacity-90 hover:shadow-lg"
           style={{ background: "var(--store-accent)" }}
         >
           Buy it now

@@ -64,6 +64,15 @@ export default async function StoreHome({
     <>
       <StoreHero store={store} layout={tokens?.hero ?? "image"} />
 
+      {categories.length > 0 && (
+        <section id="categories" className="mx-auto max-w-[1320px] px-4 pt-16 sm:px-6">
+          <div className="mb-6"><p className="text-[10px] font-semibold tracking-[0.18em] text-neutral-500 uppercase">Explore the collection</p><h2 className="mt-2 font-display text-3xl font-bold tracking-tight">Shop by category</h2></div>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+            {categories.slice(0, 8).map((c) => <Link key={c} href={link({ category: c })} className="flex min-h-28 items-end rounded-2xl border border-neutral-200 bg-neutral-50 p-5 text-base font-semibold transition hover:-translate-y-1 hover:bg-white hover:shadow-md">{c}</Link>)}
+          </div>
+        </section>
+      )}
+
       <section id="catalog" className="mx-auto max-w-6xl scroll-mt-20 px-4 pt-12 pb-20 sm:px-6 sm:pt-16">
         <div className="mb-7 flex flex-col gap-5">
           <div className="flex flex-wrap items-end justify-between gap-3">

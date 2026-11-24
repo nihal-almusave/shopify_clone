@@ -14,13 +14,13 @@ export default function CartPage() {
   if (!ready) return <div className="mx-auto max-w-4xl px-4 py-20" />
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
-      <div className="mb-8 flex items-end justify-between">
-        <h1 className="font-display text-4xl font-bold tracking-tight">Your cart</h1>
+    <div className="mx-auto max-w-[1120px] px-4 py-14 sm:px-6 sm:py-16">
+      <div className="mb-10 flex items-end justify-between">
+        <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">Your cart</h1>
         <Link href={base} className="text-sm underline">Continue shopping</Link>
       </div>
       {lines.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-neutral-300 py-20 text-center">
+        <div className="rounded-3xl border border-dashed border-neutral-300 bg-neutral-50 py-24 text-center">
           <p className="text-neutral-600">Your cart is empty</p>
           <Link href={base} className="mt-4 inline-flex h-11 items-center rounded-full px-6 text-sm font-semibold text-white" style={{ background: "var(--store-accent)" }}>
             Continue shopping
