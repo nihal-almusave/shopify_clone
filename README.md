@@ -93,6 +93,27 @@ To add another platform admin, run in the Supabase SQL editor:
 insert into public.platform_admins (user_id) select id from auth.users where email = 'someone@example.com';
 ```
 
+## Payments
+
+Each store chooses its payment methods in **Settings → Payments**; money always goes to the merchant's own account.
+
+- **Available now:** cash on delivery, bKash/Nagad/Rocket Send Money (wallet number shown to the customer), bank transfer. Customers pick one at checkout and the order page shows exactly how to pay. The database refuses orders using a method the store hasn't enabled.
+- **Ready to build:** SSLCommerz, bKash Payment Gateway and Stripe (Connect) are listed as "Coming soon". `lib/payments/providers.ts` describes the `PaymentGateway` interface and the steps to add each one; `lib/payments/methods.ts` is the catalog.
+
+## SEO
+
+- `app/sitemap.ts` (home, sign-up, every store and active product), `app/robots.ts` (private areas excluded), `app/manifest.ts`, `app/opengraph-image.tsx` (share card).
+- Canonical URLs on the home page, stores and products; schema.org data: Organization, WebSite, SoftwareApplication and FAQPage on the home page, OnlineStore on stores, Product with price and availability on product pages.
+- Set `NEXT_PUBLIC_SITE_URL` to your final domain, and optionally `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`, then submit `/sitemap.xml` in Google Search Console.
+
+## Email (Resend)
+
+Supabase's built-in sender only reaches your own team, about 2 emails an hour. To email every merchant:
+1. Create a Resend account and **verify a domain you own** (Domains → Add domain → add the DNS records).
+2. Create an API key with sending access.
+3. Supabase → Authentication → Emails → **SMTP Settings** → enable custom SMTP: host `smtp.resend.com`, port `465`, username `resend`, password = the API key, sender `no-reply@your-domain`.
+4. Raise Authentication → Rate Limits → emails per hour, and optionally paste the templates from `supabase/templates/`.
+
 ## Project structure
 
 ```

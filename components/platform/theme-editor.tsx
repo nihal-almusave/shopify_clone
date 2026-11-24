@@ -178,7 +178,7 @@ export function ThemeEditor({ theme, adminId, owner }: { theme?: Theme; adminId:
                 onClick={() => setPublished((p) => !p)}
                 className={cn("relative h-6 w-11 shrink-0 rounded-full transition-colors", published ? "bg-[#0b3d2c]" : "bg-[#c9cfc7]")}
               >
-                <span className={cn("absolute top-0.5 size-5 rounded-full bg-white shadow transition-transform", published ? "translate-x-[22px]" : "translate-x-0.5")} />
+                <span className={cn("absolute top-0.5 left-0 size-5 rounded-full bg-white shadow transition-transform", published ? "translate-x-[22px]" : "translate-x-0.5")} />
               </button>
             </label>
           </Card>

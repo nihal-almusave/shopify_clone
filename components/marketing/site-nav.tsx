@@ -10,27 +10,27 @@ const MENU = [
   {
     heading: "Build your store",
     links: [
-      { href: "#stores", label: "Storefronts", body: "A branded shop at your own link" },
-      { href: "#admin", label: "Products & stock", body: "Photos, prices and inventory" },
+      { href: "/#features", label: "Online store", body: "A branded shop at your own link" },
+      { href: "/#themes", label: "Themes", body: "Pick, upload and preview themes" },
     ],
   },
   {
     heading: "Sell and get paid",
     links: [
-      { href: "#admin", label: "Checkout", body: "Cards or cash on delivery" },
-      { href: "#currency", label: "Currencies & tax", body: "Price in taka, rupees, dollars…" },
+      { href: "/#payments", label: "Payments", body: "Cash on delivery, bKash, bank transfer" },
+      { href: "/#faq", label: "Taka & other currencies", body: "Your currency, tax and delivery charge" },
     ],
   },
   {
     heading: "Run your business",
     links: [
-      { href: "#admin", label: "Orders", body: "Mark paid, fulfill, restock" },
-      { href: "#admin", label: "Analytics", body: "Sales and average order value" },
+      { href: "/#features", label: "Orders & customers", body: "Mark paid, ship, restock" },
+      { href: "/#features", label: "Sales at a glance", body: "Daily sales and low-stock alerts" },
     ],
   },
 ]
 
-export function SiteNav() {
+export function SiteNav({ alwaysSolid = false }: { alwaysSolid?: boolean } = {}) {
   const [solid, setSolid] = useState(false)
   const [mega, setMega] = useState(false)
   const [mobile, setMobile] = useState(false)
@@ -55,7 +55,7 @@ export function SiteNav() {
     }
   }, [mega])
 
-  const light = solid || mega || mobile
+  const light = alwaysSolid || solid || mega || mobile
 
   return (
     <header
@@ -80,7 +80,7 @@ export function SiteNav() {
           >
             Product <ChevronDown className={cn("size-4 transition-transform", mega && "rotate-180")} />
           </button>
-          <Link href="#steps" className={cn("rounded-full px-3 py-2", light ? "hover:bg-[#f2f3ef]" : "hover:bg-white/10")}>
+          <Link href="/#steps" className={cn("rounded-full px-3 py-2", light ? "hover:bg-[#f2f3ef]" : "hover:bg-white/10")}>
             How it works
           </Link>
           <Link href="/store/demo" className={cn("rounded-full px-3 py-2", light ? "hover:bg-[#f2f3ef]" : "hover:bg-white/10")}>

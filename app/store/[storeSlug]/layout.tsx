@@ -28,7 +28,8 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   return {
     title: { absolute: store.store_name, template: `%s – ${store.store_name}` },
     description: store.description ?? `Shop ${store.store_name}`,
-    openGraph: store.banner_url ? { images: [store.banner_url] } : undefined,
+    alternates: { canonical: `/store/${store.store_slug}` },
+    openGraph: { type: "website", siteName: store.store_name, title: store.store_name, description: store.description ?? `Shop ${store.store_name} online`, url: `/store/${store.store_slug}`, ...(store.banner_url ? { images: [store.banner_url] } : {}) },
     icons: storeIcons(store),
   }
 }

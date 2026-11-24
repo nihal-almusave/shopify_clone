@@ -13,6 +13,8 @@ export type CheckoutInput = {
   customer: { email: string; first_name: string; last_name: string; phone: string; accepts_marketing: boolean }
   shipping: ShippingAddress
   note?: string
+  /** Chosen at checkout: an offline method the store enabled, or "stripe" for card payments. */
+  paymentMethod?: string
 }
 
 export type CheckoutResult = { ok: true; redirectUrl: string } | { ok: false; error: string }
@@ -54,13 +56,15 @@ async function createStripeSession(order: PublicOrder) {
 
 export async function placeOrder(input: CheckoutInput): Promise<CheckoutResult> {
   const supabase = await createClient()
-  const useStripe = stripeEnabled()
+  const chosen = input.paymentMethod ?? "cod"
+  if (chosen === "stripe" && !stripeEnabled()) return { ok: false, error: "Card payments aren’t available right now. Choose another payment method." }
+  const useStripe = chosen === "stripe"
   const { data, error } = await supabase.rpc("place_order", {
     p_store_slug: input.storeSlug,
     p_items: input.items,
     p_customer: input.customer,
     p_shipping: input.shipping,
-    p_payment_method: useStripe ? "stripe" : "manual",
+    p_payment_method: chosen,
     p_note: input.note ?? null,
   })
   if (error) return { ok: false, error: error.message }

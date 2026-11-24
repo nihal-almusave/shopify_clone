@@ -1,3 +1,5 @@
+import { JsonLd } from "@/components/json-ld"
+import { SITE_URL } from "@/lib/site"
 import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -33,7 +35,8 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   return {
     title: r.product.name,
     description: r.product.description?.slice(0, 160),
-    openGraph: r.product.images[0] ? { images: [r.product.images[0]] } : undefined,
+    alternates: { canonical: `/store/${storeSlug}/products/${productId}` },
+    openGraph: { type: "website", title: `${r.product.name} – ${r.store.store_name}`, url: `/store/${storeSlug}/products/${productId}`, ...(r.product.images[0] ? { images: [r.product.images[0]] } : {}) },
   }
 }
 
@@ -52,6 +55,26 @@ export default async function ProductPage({ params }: { params: Params }) {
 
   return (
     <div className="mx-auto max-w-6xl px-4 pt-8 sm:px-6">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: product.name,
+          description: product.description ?? undefined,
+          image: product.images.length ? product.images : undefined,
+          sku: product.sku ?? undefined,
+          brand: product.vendor ? { "@type": "Brand", name: product.vendor } : undefined,
+          category: product.category ?? undefined,
+          offers: {
+            "@type": "Offer",
+            url: `${SITE_URL}/store/${storeSlug}/products/${product.id}`,
+            price: Number(product.price).toFixed(2),
+            priceCurrency: store.currency,
+            availability: max === 0 ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
+            seller: { "@type": "Organization", name: store.store_name },
+          },
+        }}
+      />
       <nav className="mb-6 text-sm text-neutral-500">
         <Link href={`/store/${storeSlug}`} className="hover:text-neutral-900">Home</Link>
         {product.category && (

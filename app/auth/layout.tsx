@@ -1,6 +1,9 @@
 import type React from "react"
 import Link from "next/link"
+import type { Metadata } from "next"
 import { Logo } from "@/components/logo"
+
+export const metadata: Metadata = { robots: { index: false, follow: true } }
 
 const PHOTO = "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=1400&q=75&auto=format&fit=crop"
 

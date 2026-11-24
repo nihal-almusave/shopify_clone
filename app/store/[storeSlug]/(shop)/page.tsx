@@ -1,3 +1,5 @@
+import { JsonLd } from "@/components/json-ld"
+import { SITE_URL } from "@/lib/site"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { Search, SlidersHorizontal } from "lucide-react"
@@ -62,6 +64,18 @@ export default async function StoreHome({
 
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "OnlineStore",
+          name: store.store_name,
+          description: store.description ?? undefined,
+          url: `${SITE_URL}/store/${store.store_slug}`,
+          logo: store.logo_url ?? undefined,
+          image: store.banner_url ?? undefined,
+          currenciesAccepted: store.currency,
+        }}
+      />
       <StoreHero store={store} layout={tokens?.hero ?? "image"} />
 
       <section id="catalog" className="mx-auto max-w-6xl scroll-mt-20 px-4 pt-12 pb-20 sm:px-6 sm:pt-16">
