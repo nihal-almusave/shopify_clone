@@ -143,6 +143,18 @@ export function AdminShell({
             )
           })}
         </ul>
+        {isPlatformAdmin && (
+          <>
+            <p className="mt-5 mb-1 px-3 text-xs font-medium text-[#8a958e]">ShopHub platform</p>
+            <Link
+              href="/platform"
+              className="flex items-center gap-3 rounded-xl px-3 py-2 font-medium text-[#0b3d2c] hover:bg-[#f2f3ef]"
+            >
+              <BarChart3 className="size-[18px]" />
+              <span className="flex-1">Platform dashboard</span>
+            </Link>
+          </>
+        )}
       </nav>
 
       <div className="grid gap-0.5 border-t border-[#eceee9] p-3 text-sm">

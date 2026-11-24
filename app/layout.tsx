@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Inter, Bricolage_Grotesque } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Toaster } from "@/components/ui/sonner"
+import { AuthLinkForwarder } from "@/components/auth/auth-link-forwarder"
 import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" className={`${inter.variable} ${bricolage.variable}`}>
       <body className="font-sans antialiased">
+        <AuthLinkForwarder />
         {children}
         <Toaster position="bottom-center" theme="dark" />
         <Analytics />
