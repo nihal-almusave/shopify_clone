@@ -24,6 +24,7 @@ export type Theme = {
   preview_url: string | null
   tokens: ThemeTokens
   is_published: boolean
+  owner_id: string | null
   created_at: string
   updated_at: string
 }

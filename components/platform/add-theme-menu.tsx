@@ -11,7 +11,8 @@ import { readThemePackage } from "@/lib/theme-package"
 import { uploadStoreImage } from "@/components/admin/upload"
 
 /** "Add theme" menu like Shopify's: upload a theme package or start a blank theme. Uploads arrive unpublished. */
-export function AddThemeMenu({ adminId }: { adminId: string }) {
+export function AddThemeMenu({ adminId, ownerId }: { adminId: string; ownerId?: string }) {
+  const base = ownerId ? "/admin/themes" : "/platform/themes"
   const router = useRouter()
   const zipRef = useRef<HTMLInputElement>(null)
   const jsonRef = useRef<HTMLInputElement>(null)
@@ -24,7 +25,7 @@ export function AddThemeMenu({ adminId }: { adminId: string }) {
     setBusy(true)
     try {
       const pkg = await readThemePackage(file)
-      const preview_url = pkg.preview ? await uploadStoreImage(adminId, pkg.preview, "themes") : null
+      const preview_url = pkg.preview ? await uploadStoreImage(ownerId ?? adminId, pkg.preview, "themes") : null
       const { data, error } = await createClient()
         .from("themes")
         .insert({
@@ -34,12 +35,13 @@ export function AddThemeMenu({ adminId }: { adminId: string }) {
           tokens: pkg.tokens,
           preview_url,
           is_published: false,
+          ...(ownerId ? { owner_id: ownerId } : {}),
         })
         .select("id")
         .single()
-      if (error) throw new Error(error.message)
+      if (error) throw new Error(/row-level security/i.test(error.message) && ownerId ? "You can keep up to 20 uploaded themes. Delete one to add another." : error.message)
       toast.success(`“${pkg.name}” uploaded. Preview it, then publish when ready.`)
-      router.push(`/platform/themes/${data.id}`)
+      router.push(`${base}/${data.id}`)
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Upload failed")
     } finally {
@@ -72,7 +74,7 @@ export function AddThemeMenu({ adminId }: { adminId: string }) {
                 <span className="block text-xs text-[#5d6b63]">Just the design settings</span>
               </span>
             </button>
-            <Link role="menuitem" href="/platform/themes/new" className="flex items-start gap-2.5 rounded-lg px-2.5 py-2 hover:bg-[#f2f3ef]">
+            <Link role="menuitem" href={`${base}/new`} className="flex items-start gap-2.5 rounded-lg px-2.5 py-2 hover:bg-[#f2f3ef]">
               <Plus className="mt-0.5 size-4 shrink-0" />
               <span>
                 <span className="block text-[13px] font-medium">Create blank theme</span>

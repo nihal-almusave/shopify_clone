@@ -81,6 +81,7 @@ Only accounts listed in the `platform_admins` table can open it (everyone else g
   - **Add theme → Upload zip file**: a zip with `theme.json` (required) and `preview.png` (optional). Example: `supabase/themes/monsoon.zip`. A bare `theme.json` or **Create blank theme** also work.
   - Uploads arrive as **drafts**. **Preview** shows the theme on the demo store in your browser only; **Customize** opens the editor; **Publish** adds it to the theme store; **Download** exports a zip.
   - Merchants open **Online Store** in their admin to see their current theme and the theme library, **Preview** any theme on their own store (only they see it), and **Publish** it.
+  - Merchants can also **Add theme → Upload zip file** (or create one) for their own store. Their uploads are private to that store (up to 20), never appear in the theme store, and can be previewed, customized, published, downloaded and deleted.
   - `theme.json` format: `{ "name", "description", "tokens": { "background", "surface", "text", "muted", "border", "accent" (optional), "headingFont": grotesk|sans|serif|mono, "corners": sharp|rounded|pill, "hero": image|split|minimal } }`. Themes are design settings only; they can't run code.
 
 Tracking:

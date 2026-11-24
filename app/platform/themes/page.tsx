@@ -14,7 +14,7 @@ const PREVIEW_STORE = "demo"
 export default async function ThemesPage() {
   const { supabase, user } = await requirePlatformAdmin()
   const [{ data }, { data: usage }] = await Promise.all([
-    supabase.from("themes").select("*").order("created_at", { ascending: true }),
+    supabase.from("themes").select("*").is("owner_id", null).order("created_at", { ascending: true }),
     supabase.rpc("platform_stats", { p_days: 7 }),
   ])
   const themes = (data ?? []) as Theme[]

@@ -35,8 +35,8 @@ export function LoginForm() {
 
   return (
     <>
-      <h1 className="text-2xl font-bold tracking-tight text-[#12201a]">Log in</h1>
-      <p className="mt-1 text-sm text-[#5d6b63]">Continue to your store admin</p>
+      <h1 className="font-display text-[34px] leading-tight font-bold tracking-[-0.035em]">Log in</h1>
+      <p className="mt-2 text-[15px] text-[#5d6b63]">Continue to your store admin</p>
       <form onSubmit={submit} className="mt-6 grid gap-4">
         <div>
           <label className="field-label" htmlFor="email">Email</label>
@@ -56,7 +56,7 @@ export function LoginForm() {
           {loading && <Loader2 className="size-4 animate-spin" />} Log in
         </button>
       </form>
-      <p className="mt-6 text-center text-[13px] text-[#5d6b63]">
+      <p className="mt-8 text-[13px] text-[#5d6b63]">
         New to ShopHub?{" "}
         <Link href="/auth/signup" className="font-medium text-[#0b6e4f] hover:underline">
           Get started

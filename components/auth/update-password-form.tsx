@@ -33,7 +33,7 @@ export function UpdatePasswordForm({ email }: { email: string }) {
 
   return (
     <>
-      <h1 className="font-display text-2xl font-bold tracking-tight">Choose a new password</h1>
+      <h1 className="font-display text-[34px] leading-tight font-bold tracking-[-0.035em]">Choose a new password</h1>
       <p className="mt-1 text-sm text-[#5d6b63]">For {email}</p>
       <form onSubmit={submit} className="mt-6 grid gap-4">
         <div>
@@ -46,7 +46,7 @@ export function UpdatePasswordForm({ email }: { email: string }) {
               required
               autoFocus
               minLength={8}
-              className="field py-2 pr-10"
+              className="field py-2.5 pr-10"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -63,10 +63,10 @@ export function UpdatePasswordForm({ email }: { email: string }) {
         </div>
         <div>
           <label className="field-label" htmlFor="confirm">Confirm new password</label>
-          <input id="confirm" type={show ? "text" : "password"} autoComplete="new-password" required className="field py-2" value={confirm} onChange={(e) => setConfirm(e.target.value)} />
+          <input id="confirm" type={show ? "text" : "password"} autoComplete="new-password" required className="field py-2.5" value={confirm} onChange={(e) => setConfirm(e.target.value)} />
         </div>
         {error && <p className="rounded-lg bg-[#fee9e8] px-3 py-2 text-[13px] text-[#8e0b21]">{error}</p>}
-        <button type="submit" disabled={loading} className="btn-primary h-10 text-sm">
+        <button type="submit" disabled={loading} className="btn-primary mt-2 h-11 text-sm">
           {loading && <Loader2 className="size-4 animate-spin" />} Update password
         </button>
       </form>
