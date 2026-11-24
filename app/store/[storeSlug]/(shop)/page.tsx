@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { Search, SlidersHorizontal } from "lucide-react"
-import { getStorefront, getStoreTheme } from "@/lib/storefront"
+import { getStorefront, resolveStoreTheme } from "@/lib/storefront"
 import { StoreHero } from "@/components/store/store-hero"
 import { createClient } from "@/lib/supabase/server"
 import type { Product } from "@/lib/types"
@@ -27,7 +27,7 @@ export default async function StoreHome({
   const search = rawQuery.trim().slice(0, 80)
   const store = await getStorefront(storeSlug)
   if (!store) notFound()
-  const tokens = await getStoreTheme(store.theme_id)
+  const { tokens } = await resolveStoreTheme({ theme_id: store.theme_id })
   const supabase = await createClient()
   const selectedSort = SORTS[sort as keyof typeof SORTS] ?? SORTS.newest
 

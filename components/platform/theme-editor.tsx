@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import { useRef, useState } from "react"
-import { Download, ImagePlus, Loader2, Trash2, X } from "lucide-react"
+import { Download, Eye, ImagePlus, Loader2, Trash2, X } from "lucide-react"
 import { toast } from "sonner"
 import { createClient } from "@/lib/supabase/client"
 import { slugify } from "@/lib/format"
@@ -21,6 +21,7 @@ import {
 import { Card, Page } from "@/components/admin/ui"
 import { ThemeSwatch } from "@/components/admin/theme-swatch"
 import { uploadStoreImage } from "@/components/admin/upload"
+import { buildThemeZip, downloadBlob } from "@/lib/theme-package"
 import { cn } from "@/lib/utils"
 
 const COLORS: { key: keyof ThemeTokens; label: string; help: string }[] = [
@@ -85,14 +86,8 @@ export function ThemeEditor({ theme, adminId }: { theme?: Theme; adminId: string
     router.refresh()
   }
 
-  const exportJson = () => {
-    const blob = new Blob([JSON.stringify({ name, description, tokens: finalTokens() }, null, 2)], { type: "application/json" })
-    const a = document.createElement("a")
-    a.href = URL.createObjectURL(blob)
-    a.download = `${slugify(name) || "theme"}.shophub-theme.json`
-    a.click()
-    URL.revokeObjectURL(a.href)
-  }
+  const exportZip = async () =>
+    downloadBlob(await buildThemeZip({ name, description: description || null, tokens: finalTokens(), preview_url: previewUrl || null }), `${slugify(name) || "theme"}.zip`)
 
   return (
     <Page
@@ -101,8 +96,13 @@ export function ThemeEditor({ theme, adminId }: { theme?: Theme; adminId: string
       title={theme ? theme.name : "New theme"}
       actions={
         <>
-          <button className="btn-secondary" onClick={exportJson}>
-            <Download className="size-4" /> Export JSON
+          {theme && (
+            <a href={`/api/theme-preview?store=demo&theme=${theme.id}`} target="_blank" rel="noopener" className="btn-secondary">
+              <Eye className="size-4" /> Preview
+            </a>
+          )}
+          <button className="btn-secondary" onClick={exportZip}>
+            <Download className="size-4" /> Download (.zip)
           </button>
           <button className="btn-primary" onClick={save} disabled={saving}>
             {saving && <Loader2 className="size-4 animate-spin" />} Save

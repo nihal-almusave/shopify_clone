@@ -1,6 +1,8 @@
 import type React from "react"
 import Link from "next/link"
-import { getStorefront, getStoreTheme } from "@/lib/storefront"
+import { getStorefront, resolveStoreTheme } from "@/lib/storefront"
+import { createClient } from "@/lib/supabase/server"
+import { ThemePreviewBar } from "@/components/store/theme-preview-bar"
 import { themeStyle } from "@/lib/themes"
 import { PageViewTracker } from "@/components/store/page-view-tracker"
 import { StoreHeader } from "@/components/store/store-header"
@@ -15,9 +17,17 @@ export default async function ShopLayout({
 }) {
   const { storeSlug } = await params
   const store = await getStorefront(storeSlug)
-  const tokens = await getStoreTheme(store?.theme_id ?? null)
+  const { tokens, preview } = await resolveStoreTheme({ theme_id: store?.theme_id ?? null })
+  let isOwner = false
+  if (preview && store) {
+    const {
+      data: { user },
+    } = await (await createClient()).auth.getUser()
+    isOwner = user?.id === store.id
+  }
   return (
     <div className="store-theme min-h-screen" style={themeStyle(tokens, store?.accent_color ?? "#008060")}>
+      {preview && <ThemePreviewBar storeSlug={storeSlug} themeId={preview.id} themeName={preview.name} canPublish={isOwner} />}
       <PageViewTracker slug={storeSlug} />
       <StoreHeader />
       <main>{children}</main>

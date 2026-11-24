@@ -77,7 +77,11 @@ Only accounts listed in the `platform_admins` table can open it (everyone else g
 
 - **Overview**: stores, active stores, products, orders, visitors and conversion for 7/30/90 days; charts for storefront traffic, orders, new stores and merchant activity; top stores, sales by currency and themes in use.
 - **Stores**: every store with its theme, products, orders, sales, visitors and last activity.
-- **Themes**: design presets (colors, heading font, corners, homepage hero layout, optional preview image). Create them in the editor or upload a theme file; published themes show up in every merchant's Settings → Theme. Example file: `supabase/themes/monsoon.shophub-theme.json`.
+- **Themes** (works like Shopify's Online Store → Themes):
+  - **Add theme → Upload zip file**: a zip with `theme.json` (required) and `preview.png` (optional). Example: `supabase/themes/monsoon.zip`. A bare `theme.json` or **Create blank theme** also work.
+  - Uploads arrive as **drafts**. **Preview** shows the theme on the demo store in your browser only; **Customize** opens the editor; **Publish** adds it to the theme store; **Download** exports a zip.
+  - Merchants open **Online Store** in their admin to see their current theme and the theme library, **Preview** any theme on their own store (only they see it), and **Publish** it.
+  - `theme.json` format: `{ "name", "description", "tokens": { "background", "surface", "text", "muted", "border", "accent" (optional), "headingFont": grotesk|sans|serif|mono, "corners": sharp|rounded|pill, "hero": image|split|minimal } }`. Themes are design settings only; they can't run code.
 
 Tracking:
 - Storefront visits are counted anonymously by `/api/track`: the visitor id is a daily-rotating hash, no cookies are set and IP addresses are never stored. Bots and headless browsers are ignored. Optionally set `TRACKING_SALT` to a random secret in Vercel.

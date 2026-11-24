@@ -7,17 +7,12 @@ import { toast } from "sonner"
 import { createClient } from "@/lib/supabase/client"
 import { CURRENCIES, slugify } from "@/lib/format"
 import type { Merchant } from "@/lib/types"
-import type { ThemeTokens } from "@/lib/themes"
-import { ThemeSwatch } from "@/components/admin/theme-swatch"
-import { Check } from "lucide-react"
 import { Card, Page } from "@/components/admin/ui"
 import { uploadStoreImage } from "@/components/admin/upload"
 
 const ACCENTS = ["#008060", "#12201a", "#0b3d2c", "#8051ff", "#e51c00", "#c05717", "#b98900", "#0b7285"]
 
-type ThemeOption = { id: string; name: string; description: string | null; preview_url: string | null; tokens: ThemeTokens }
-
-export function SettingsForm({ merchant, themes = [] }: { merchant: Merchant; themes?: ThemeOption[] }) {
+export function SettingsForm({ merchant }: { merchant: Merchant }) {
   const router = useRouter()
   const initial = {
     store_name: merchant.store_name,
@@ -29,7 +24,6 @@ export function SettingsForm({ merchant, themes = [] }: { merchant: Merchant; th
     logo_url: merchant.logo_url ?? "",
     banner_url: merchant.banner_url ?? "",
     favicon_url: merchant.favicon_url ?? "",
-    theme_id: merchant.theme_id ?? "",
     currency: merchant.currency,
     tax_rate: String(merchant.tax_rate),
     shipping_rate: String(merchant.shipping_rate),
@@ -57,7 +51,6 @@ export function SettingsForm({ merchant, themes = [] }: { merchant: Merchant; th
         logo_url: form.logo_url || null,
         banner_url: form.banner_url || null,
         favicon_url: form.favicon_url || null,
-        theme_id: form.theme_id || null,
         currency: form.currency,
         tax_rate: Number.parseFloat(form.tax_rate) || 0,
         shipping_rate: Number.parseFloat(form.shipping_rate) || 0,
@@ -110,45 +103,7 @@ export function SettingsForm({ merchant, themes = [] }: { merchant: Merchant; th
             </Card>
           </Section>
 
-          {themes.length > 0 && (
-            <Section id="theme" title="Theme" description="The overall look of your Online Store: colors, fonts, corners and homepage layout. Your logo and accent color stay yours.">
-              <div className="grid gap-3 sm:grid-cols-2" role="radiogroup" aria-label="Store theme">
-                {[{ id: "", name: "ShopHub default", description: "The standard ShopHub look.", preview_url: null, tokens: null as ThemeTokens | null }, ...themes].map((t) => {
-                  const selected = form.theme_id === t.id
-                  return (
-                    <button
-                      key={t.id || "default"}
-                      type="button"
-                      role="radio"
-                      aria-checked={selected}
-                      onClick={() => set("theme_id", t.id)}
-                      className={`surface overflow-hidden text-left transition-shadow ${selected ? "ring-2 ring-[#0b3d2c]" : "hover:ring-1 hover:ring-[#b9c2bc]"}`}
-                    >
-                      {t.preview_url ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={t.preview_url} alt="" className="aspect-[16/9] w-full object-cover" />
-                      ) : (
-                        <ThemeSwatch tokens={t.tokens} name={form.store_name || "Your store"} />
-                      )}
-                      <div className="flex items-start gap-2 p-3">
-                        <div className="min-w-0 flex-1">
-                          <p className="text-sm font-semibold">{t.name}</p>
-                          {t.description && <p className="mt-0.5 text-xs text-[#5d6b63]">{t.description}</p>}
-                        </div>
-                        {selected && (
-                          <span className="grid size-5 shrink-0 place-items-center rounded-full bg-[#0b3d2c] text-white">
-                            <Check className="size-3" />
-                          </span>
-                        )}
-                      </div>
-                    </button>
-                  )
-                })}
-              </div>
-            </Section>
-          )}
-
-          <Section title="Brand" description="Logo, cover image and colors used across your Online Store.">
+          <Section title="Brand" description="Logo, cover image and colors used across your Online Store. To change the overall look, go to Online Store → Themes.">
             <Card>
               <div className="grid gap-4 sm:grid-cols-[10rem_1fr]">
                 <ImagePicker label="Logo" merchantId={merchant.id} value={form.logo_url} onChange={(v) => set("logo_url", v)} square />

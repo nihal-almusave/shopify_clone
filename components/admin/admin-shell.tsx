@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { useEffect, useState, type ReactNode } from "react"
-import { BarChart3, ChevronsUpDown, ExternalLink, Home, Inbox, KeyRound, LogOut, Menu, Search, Settings, Tag, Users, X } from "lucide-react"
+import { BarChart3, ChevronsUpDown, ExternalLink, Home, Inbox, KeyRound, LogOut, Menu, Palette, Search, Settings, Tag, Users, X } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { cn } from "@/lib/utils"
 import { Logo } from "@/components/logo"
@@ -15,6 +15,7 @@ const NAV: Nav[] = [
   { href: "/admin/orders", label: "Orders", icon: Inbox },
   { href: "/admin/products", label: "Products", icon: Tag, children: [{ href: "/admin/products/inventory", label: "Inventory" }] },
   { href: "/admin/customers", label: "Customers", icon: Users },
+  { href: "/admin/themes", label: "Online Store", icon: Palette },
 ]
 
 type Store = { name: string; slug: string; accent: string; logo: string | null }
