@@ -1,3 +1,5 @@
+import { PaymentInstructions } from "@/components/store/payment-instructions"
+import { methodName } from "@/lib/payments/methods"
 import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -34,6 +36,13 @@ export default async function OrderStatusPage({
   if (!order || order.store_slug !== storeSlug) notFound()
 
   const money = (v: number) => formatMoney(v, order.currency)
+  const { data: pm } = await supabase
+    .from("merchant_payment_methods")
+    .select("details")
+    .eq("merchant_id", store.id)
+    .eq("method", order.payment_method)
+    .maybeSingle()
+  const payDetails = (pm?.details ?? {}) as Record<string, string>
   const paid = order.payment_status === "paid"
   const cancelled = order.status === "cancelled"
   const firstName = order.customer_name?.split(" ")[0]
@@ -82,7 +91,9 @@ export default async function OrderStatusPage({
                   ? `We’ve received your payment. ${store.store_name} will send updates to ${order.email}.`
                   : order.payment_method === "stripe"
                     ? "Complete your card payment to confirm the order."
-                    : `${store.store_name} will contact you at ${order.email} with payment instructions.`}
+                    : order.payment_method === "cod" || order.payment_method === "manual"
+                      ? `${store.store_name} will send updates to ${order.email}.`
+                      : "Follow the payment steps below to confirm your order."}
             </p>
             {!cancelled && (
               <ol className="mt-5 grid grid-cols-3 gap-2">
@@ -100,6 +111,9 @@ export default async function OrderStatusPage({
               </p>
             )}
             {!paid && !cancelled && order.payment_method === "stripe" && stripeEnabled() && <PayNowButton orderId={order.id} />}
+            {!paid && !cancelled && order.payment_method !== "stripe" && (
+              <PaymentInstructions method={order.payment_method} details={payDetails} total={Number(order.total_price)} currency={order.currency} orderNumber={order.order_number} />
+            )}
           </section>
 
           <section className="grid gap-6 rounded-xl border border-neutral-200 p-5 text-sm sm:grid-cols-2">
@@ -107,7 +121,7 @@ export default async function OrderStatusPage({
               <h3 className="mb-1 font-semibold">Contact information</h3>
               <p className="text-neutral-600">{order.email}</p>
               <h3 className="mt-4 mb-1 font-semibold">Payment method</h3>
-              <p className="text-neutral-600">{order.payment_method === "stripe" ? "Card" : "Manual payment"} · {money(order.total_price)}</p>
+              <p className="text-neutral-600">{methodName(order.payment_method)} · {money(order.total_price)}</p>
             </div>
             <div>
               <h3 className="mb-1 font-semibold">Shipping address</h3>

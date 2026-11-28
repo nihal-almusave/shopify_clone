@@ -32,7 +32,13 @@ const COLORS: { key: keyof ThemeTokens; label: string; help: string }[] = [
   { key: "border", label: "Borders", help: "Dividers and outlines" },
 ]
 
-export function ThemeEditor({ theme, adminId }: { theme?: Theme; adminId: string }) {
+/**
+ * Theme editor for platform admins (theme store) and, with `owner`, for merchants editing
+ * their own private themes (no theme-store publishing; previews on their store).
+ */
+export function ThemeEditor({ theme, adminId, owner }: { theme?: Theme; adminId: string; owner?: { id: string; storeSlug: string } }) {
+  const base = owner ? "/admin/themes" : "/platform/themes"
+  const previewStore = owner?.storeSlug ?? "demo"
   const router = useRouter()
   const [name, setName] = useState(theme?.name ?? "")
   const [description, setDescription] = useState(theme?.description ?? "")
@@ -60,29 +66,29 @@ export function ThemeEditor({ theme, adminId }: { theme?: Theme; adminId: string
       description: description.trim() || null,
       preview_url: previewUrl || null,
       tokens: parsed.tokens,
-      is_published: published,
+      ...(owner ? {} : { is_published: published }),
     }
     const supabase = createClient()
     const res = theme
       ? await supabase.from("themes").update(payload).eq("id", theme.id).select("id").single()
       : await supabase
           .from("themes")
-          .insert({ ...payload, slug: `${slugify(name) || "theme"}-${Math.random().toString(36).slice(2, 6)}` })
+          .insert({ ...payload, ...(owner ? { owner_id: owner.id } : {}), slug: `${slugify(name) || "theme"}-${Math.random().toString(36).slice(2, 6)}` })
           .select("id")
           .single()
     setSaving(false)
     if (res.error) return toast.error(res.error.message)
     toast.success(theme ? "Theme saved" : "Theme created")
-    if (!theme) router.replace(`/platform/themes/${res.data.id}`)
+    if (!theme) router.replace(`${base}/${res.data.id}`)
     router.refresh()
   }
 
   const remove = async () => {
-    if (!theme || !confirm(`Delete “${theme.name}”? Stores using it go back to the default look.`)) return
+    if (!theme || !confirm(owner ? `Delete “${theme.name}”? If it’s live, your store goes back to the default look.` : `Delete “${theme.name}”? Stores using it go back to the default look.`)) return
     const { error } = await createClient().from("themes").delete().eq("id", theme.id)
     if (error) return toast.error(error.message)
     toast.success("Theme deleted")
-    router.push("/platform/themes")
+    router.push(base)
     router.refresh()
   }
 
@@ -92,12 +98,12 @@ export function ThemeEditor({ theme, adminId }: { theme?: Theme; adminId: string
   return (
     <Page
       narrow
-      backHref="/platform/themes"
+      backHref={base}
       title={theme ? theme.name : "New theme"}
       actions={
         <>
           {theme && (
-            <a href={`/api/theme-preview?store=demo&theme=${theme.id}`} target="_blank" rel="noopener" className="btn-secondary">
+            <a href={`/api/theme-preview?store=${previewStore}&theme=${theme.id}`} target="_blank" rel="noopener" className="btn-secondary">
               <Eye className="size-4" /> Preview
             </a>
           )}
@@ -157,6 +163,7 @@ export function ThemeEditor({ theme, adminId }: { theme?: Theme; adminId: string
             <ThemeSwatch tokens={finalTokens()} name="Store name" />
           </Card>
 
+          {!owner && (
           <Card title="Status">
             <label className="flex items-center justify-between gap-3 text-sm">
               <span>
@@ -171,10 +178,11 @@ export function ThemeEditor({ theme, adminId }: { theme?: Theme; adminId: string
                 onClick={() => setPublished((p) => !p)}
                 className={cn("relative h-6 w-11 shrink-0 rounded-full transition-colors", published ? "bg-[#0b3d2c]" : "bg-[#c9cfc7]")}
               >
-                <span className={cn("absolute top-0.5 size-5 rounded-full bg-white shadow transition-transform", published ? "translate-x-[22px]" : "translate-x-0.5")} />
+                <span className={cn("absolute top-0.5 left-0 size-5 rounded-full bg-white shadow transition-transform", published ? "translate-x-[22px]" : "translate-x-0.5")} />
               </button>
             </label>
           </Card>
+          )}
 
           <Card title="Preview image (optional)">
             <p className="mb-3 text-xs text-[#5d6b63]">A screenshot shown on the theme card. Without one, merchants see the drawn preview.</p>
@@ -206,7 +214,7 @@ export function ThemeEditor({ theme, adminId }: { theme?: Theme; adminId: string
                 if (!f) return
                 setUploading(true)
                 try {
-                  setPreviewUrl(await uploadStoreImage(adminId, f, "themes"))
+                  setPreviewUrl(await uploadStoreImage(owner?.id ?? adminId, f, "themes"))
                 } catch (err) {
                   toast.error(err instanceof Error ? err.message : "Upload failed")
                 } finally {

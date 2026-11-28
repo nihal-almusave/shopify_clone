@@ -6,6 +6,7 @@ import { ChevronDown, CreditCard, Landmark, Loader2, Lock } from "lucide-react"
 import { formatMoney } from "@/lib/format"
 import type { Storefront } from "@/lib/types"
 import { placeOrder } from "@/lib/checkout"
+import { methodName, type EnabledMethod } from "@/lib/payments/methods"
 import { useCart } from "@/components/store/cart"
 import { CheckoutHeader } from "@/components/store/checkout-header"
 import { cn } from "@/lib/utils"
@@ -29,7 +30,25 @@ function Field({ label, className, ...props }: React.InputHTMLAttributes<HTMLInp
   )
 }
 
-export function CheckoutForm({ store, cardPayments }: { store: Storefront; cardPayments: boolean }) {
+const ORDER = ["cod", "mobile_wallet", "bank_transfer"] as const
+
+export function CheckoutForm({ store, cardPayments, methods = [] }: { store: Storefront; cardPayments: boolean; methods?: EnabledMethod[] }) {
+  // Stores that never set up payments accept cash on delivery, as before.
+  const offline: EnabledMethod[] = (methods.length ? [...methods].sort((a, b) => ORDER.indexOf(a.method as never) - ORDER.indexOf(b.method as never)) : [{ method: "cod", details: {} }])
+  const options: { id: string; label: string; help: string }[] = [
+    ...(cardPayments ? [{ id: "stripe", label: "Credit or debit card", help: "You’ll be redirected to Stripe to pay securely." }] : []),
+    ...offline.map((m) => ({
+      id: m.method,
+      label: m.method === "mobile_wallet" ? `${m.details.provider || "Mobile wallet"} (Send Money)` : methodName(m.method),
+      help:
+        m.method === "cod"
+          ? m.details.instructions || "Pay in cash when your order arrives."
+          : m.method === "mobile_wallet"
+            ? `Send the total to ${m.details.account_number ?? "the store’s number"} after you place the order. We’ll show the exact steps.`
+            : `Transfer the total to ${m.details.bank_name ?? "the store’s bank account"} after you place the order. We’ll show the details.`,
+    })),
+  ]
+  const [payment, setPayment] = useState(options[0]?.id ?? "cod")
   const { lines, ready, subtotal, clear } = useCart()
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -59,6 +78,7 @@ export function CheckoutForm({ store, cardPayments }: { store: Storefront; cardP
         city: f.city, province: f.province, postal_code: f.postal_code, country: f.country,
       },
       note: f.note,
+      paymentMethod: payment,
     })
     if (!res.ok) {
       setError(res.error)
@@ -186,17 +206,25 @@ export function CheckoutForm({ store, cardPayments }: { store: Storefront; cardP
               <p className="mb-3 flex items-center gap-1 text-sm text-neutral-500">
                 <Lock className="size-3.5" /> All transactions are secure and encrypted.
               </p>
-              <div className="rounded-lg border px-4 py-4 text-sm" style={{ borderColor: "var(--store-accent)", background: "color-mix(in srgb, var(--store-accent) 6%, white)" }}>
-                {cardPayments ? (
-                  <p className="flex items-center gap-2 font-medium"><CreditCard className="size-4" /> Credit or debit card</p>
-                ) : (
-                  <p className="flex items-center gap-2 font-medium"><Landmark className="size-4" /> Manual payment (bank transfer or cash on delivery)</p>
-                )}
-                <p className="mt-1 text-neutral-500">
-                  {cardPayments
-                    ? "After you click “Pay now”, you’ll be redirected to Stripe to complete your purchase securely."
-                    : "The store will contact you with payment details after you place your order."}
-                </p>
+              <div className="overflow-hidden rounded-lg border border-neutral-300" role="radiogroup" aria-label="Payment method">
+                {options.map((o, i) => {
+                  const selected = payment === o.id
+                  return (
+                    <label
+                      key={o.id}
+                      className={cn("flex cursor-pointer gap-3 px-4 py-4 text-sm", i > 0 && "border-t border-neutral-300")}
+                      style={selected ? { background: "color-mix(in srgb, var(--store-accent) 6%, white)", boxShadow: "inset 0 0 0 1px var(--store-accent)" } : undefined}
+                    >
+                      <input type="radio" name="payment" value={o.id} checked={selected} onChange={() => setPayment(o.id)} className="mt-0.5 size-4" style={{ accentColor: "var(--store-accent)" }} />
+                      <span>
+                        <span className="flex items-center gap-2 font-medium">
+                          {o.id === "stripe" ? <CreditCard className="size-4" /> : <Landmark className="size-4" />} {o.label}
+                        </span>
+                        {selected && <span className="mt-1 block text-neutral-500">{o.help}</span>}
+                      </span>
+                    </label>
+                  )
+                })}
               </div>
             </section>
 
@@ -214,7 +242,7 @@ export function CheckoutForm({ store, cardPayments }: { store: Storefront; cardP
               style={{ background: "var(--store-accent)" }}
             >
               {submitting && <Loader2 className="size-5 animate-spin" />}
-              {cardPayments ? "Pay now" : "Complete order"}
+              {payment === "stripe" ? "Pay now" : "Complete order"}
             </button>
             <p className="mt-6 border-t border-neutral-200 pt-4 text-xs text-neutral-500">
               By placing your order you agree to the store’s terms. Your details are shared only with {store.store_name}.

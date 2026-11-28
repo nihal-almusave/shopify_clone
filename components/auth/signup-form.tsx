@@ -49,8 +49,8 @@ export function SignupForm() {
 
   return (
     <>
-      <h1 className="text-2xl font-bold tracking-tight text-[#303030]">Create your store</h1>
-      <p className="mt-1 text-sm text-[#616161]">Free to start. No credit card required.</p>
+      <h1 className="font-display text-[34px] leading-tight font-bold tracking-[-0.035em]">Create your store</h1>
+      <p className="mt-2 text-[15px] text-[#5d6b63]">Free to start. No credit card required.</p>
       <form onSubmit={submit} className="mt-6 grid gap-4">
         <div>
           <label className="field-label" htmlFor="storeName">Store name</label>
@@ -65,8 +65,8 @@ export function SignupForm() {
         </div>
         <div>
           <label className="field-label" htmlFor="slug">Store URL</label>
-          <div className="flex overflow-hidden rounded-lg border border-[#8a8a8a] focus-within:border-[#005bd3] focus-within:ring-2 focus-within:ring-[#005bd3]/30">
-            <span className="flex items-center bg-[#f7f7f7] px-3 text-[13px] text-[#616161]">/store/</span>
+          <div className="flex overflow-hidden rounded-xl border border-[#c9cfc7] focus-within:border-[#0b3d2c] focus-within:ring-3 focus-within:ring-[#0b3d2c]/15">
+            <span className="flex items-center bg-[#f7f8f5] px-3 text-[13px] text-[#5d6b63]">/store/</span>
             <input
               id="slug"
               className="w-full px-2 py-2 text-[13px] outline-none"
@@ -81,7 +81,7 @@ export function SignupForm() {
         </div>
         <div>
           <label className="field-label" htmlFor="email">Email</label>
-          <input id="email" type="email" autoComplete="email" required className="field py-2" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+          <input id="email" type="email" autoComplete="email" required className="field py-2.5" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
         </div>
         <div>
           <label className="field-label" htmlFor="password">Password</label>
@@ -93,9 +93,9 @@ export function SignupForm() {
           {loading && <Loader2 className="size-4 animate-spin" />} Create store
         </button>
       </form>
-      <p className="mt-6 text-center text-[13px] text-[#616161]">
+      <p className="mt-8 text-[13px] text-[#5d6b63]">
         Already have a store?{" "}
-        <Link href="/auth/login" className="font-medium text-[#005bd3] hover:underline">
+        <Link href="/auth/login" className="font-medium text-[#0b6e4f] hover:underline">
           Log in
         </Link>
       </p>

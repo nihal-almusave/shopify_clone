@@ -7,15 +7,15 @@ export default async function VerifyEmailPage({ searchParams }: { searchParams: 
   const { email } = await searchParams
   return (
     <div className="text-center">
-      <div className="mx-auto mb-4 grid size-14 place-items-center rounded-full bg-[#cdfee1] text-[#0b3d2c]">
+      <div className="mx-auto mb-4 grid size-14 place-items-center rounded-full bg-[#dcfce9] text-[#0b3d2c]">
         <MailCheck className="size-7" />
       </div>
-      <h1 className="text-2xl font-bold tracking-tight text-[#303030]">Check your email</h1>
-      <p className="mt-2 text-sm text-[#616161]">
-        We sent a confirmation link to {email ? <strong className="text-[#303030]">{email}</strong> : "your inbox"}. Click it
+      <h1 className="font-display text-[34px] leading-tight font-bold tracking-[-0.035em]">Check your email</h1>
+      <p className="mt-2 text-sm text-[#5d6b63]">
+        We sent a confirmation link to {email ? <strong className="text-[#12201a]">{email}</strong> : "your inbox"}. Click it
         to open your store admin.
       </p>
-      <Link href="/auth/login" className="btn-secondary mt-6 h-10 w-full text-sm">
+      <Link href="/auth/login" className="btn-secondary mt-6 h-11 w-full text-sm">
         Back to log in
       </Link>
     </div>

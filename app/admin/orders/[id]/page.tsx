@@ -1,3 +1,4 @@
+import { methodName } from "@/lib/payments/methods"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { Mail, Phone } from "lucide-react"
@@ -91,7 +92,7 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
               <dd className="border-t border-[#eceee9] pt-2 text-right">{money(order.total_price)}</dd>
             </dl>
             <p className="mt-2 text-xs text-[#5d6b63]">
-              Payment method: {order.payment_method === "stripe" ? "Card (Stripe)" : "Manual payment"}
+              Payment method: {methodName(order.payment_method)}
               {order.paid_at && ` · Paid ${formatDateTime(order.paid_at)}`}
             </p>
           </Card>

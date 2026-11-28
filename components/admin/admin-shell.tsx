@@ -158,7 +158,7 @@ export function AdminShell({
         )}
       </nav>
 
-      <div className="grid gap-0.5 border-t border-[#eceee9] p-3 text-sm">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-0.5 border-t border-[#eceee9] p-3 text-sm">
         <Link
           href="/admin/settings"
           aria-current={isActive("/admin/settings") ? "page" : undefined}

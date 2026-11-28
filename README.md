@@ -81,6 +81,7 @@ Only accounts listed in the `platform_admins` table can open it (everyone else g
   - **Add theme → Upload zip file**: a zip with `theme.json` (required) and `preview.png` (optional). Example: `supabase/themes/monsoon.zip`. A bare `theme.json` or **Create blank theme** also work.
   - Uploads arrive as **drafts**. **Preview** shows the theme on the demo store in your browser only; **Customize** opens the editor; **Publish** adds it to the theme store; **Download** exports a zip.
   - Merchants open **Online Store** in their admin to see their current theme and the theme library, **Preview** any theme on their own store (only they see it), and **Publish** it.
+  - Merchants can also **Add theme → Upload zip file** (or create one) for their own store. Their uploads are private to that store (up to 20), never appear in the theme store, and can be previewed, customized, published, downloaded and deleted.
   - `theme.json` format: `{ "name", "description", "tokens": { "background", "surface", "text", "muted", "border", "accent" (optional), "headingFont": grotesk|sans|serif|mono, "corners": sharp|rounded|pill, "hero": image|split|minimal } }`. Themes are design settings only; they can't run code.
 
 Tracking:
@@ -91,6 +92,27 @@ To add another platform admin, run in the Supabase SQL editor:
 ```sql
 insert into public.platform_admins (user_id) select id from auth.users where email = 'someone@example.com';
 ```
+
+## Payments
+
+Each store chooses its payment methods in **Settings → Payments**; money always goes to the merchant's own account.
+
+- **Available now:** cash on delivery, bKash/Nagad/Rocket Send Money (wallet number shown to the customer), bank transfer. Customers pick one at checkout and the order page shows exactly how to pay. The database refuses orders using a method the store hasn't enabled.
+- **Ready to build:** SSLCommerz, bKash Payment Gateway and Stripe (Connect) are listed as "Coming soon". `lib/payments/providers.ts` describes the `PaymentGateway` interface and the steps to add each one; `lib/payments/methods.ts` is the catalog.
+
+## SEO
+
+- `app/sitemap.ts` (home, sign-up, every store and active product), `app/robots.ts` (private areas excluded), `app/manifest.ts`, `app/opengraph-image.tsx` (share card).
+- Canonical URLs on the home page, stores and products; schema.org data: Organization, WebSite, SoftwareApplication and FAQPage on the home page, OnlineStore on stores, Product with price and availability on product pages.
+- Set `NEXT_PUBLIC_SITE_URL` to your final domain, and optionally `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`, then submit `/sitemap.xml` in Google Search Console.
+
+## Email (Resend)
+
+Supabase's built-in sender only reaches your own team, about 2 emails an hour. To email every merchant:
+1. Create a Resend account and **verify a domain you own** (Domains → Add domain → add the DNS records).
+2. Create an API key with sending access.
+3. Supabase → Authentication → Emails → **SMTP Settings** → enable custom SMTP: host `smtp.resend.com`, port `465`, username `resend`, password = the API key, sender `no-reply@your-domain`.
+4. Raise Authentication → Rate Limits → emails per hour, and optionally paste the templates from `supabase/templates/`.
 
 ## Project structure
 

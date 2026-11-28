@@ -82,7 +82,7 @@ export type Order = {
   status: "open" | "archived" | "cancelled"
   payment_status: "pending" | "paid" | "refunded"
   fulfillment_status: "unfulfilled" | "fulfilled"
-  payment_method: "manual" | "stripe"
+  payment_method: "manual" | "cod" | "bank_transfer" | "mobile_wallet" | "stripe" | "sslcommerz" | "bkash"
   subtotal: number
   shipping_cost: number
   tax: number

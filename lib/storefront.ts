@@ -14,7 +14,8 @@ export const getStorefront = cache(async (slug: string) => {
 export const getStoreTheme = cache(async (themeId: string | null) => {
   if (!themeId) return null
   const supabase = await createClient()
-  const { data } = await supabase.from("themes").select("tokens").eq("id", themeId).eq("is_published", true).maybeSingle()
+  // RLS allows the store's own uploaded theme as well as published ones
+  const { data } = await supabase.from("themes").select("tokens").eq("id", themeId).maybeSingle()
   return (data?.tokens as ThemeTokens | undefined) ?? null
 })
 

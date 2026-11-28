@@ -2,7 +2,8 @@
 
 import { useRouter } from "next/navigation"
 import { useRef, useState } from "react"
-import { ImagePlus, Loader2, X } from "lucide-react"
+import Link from "next/link"
+import { ChevronRight, ImagePlus, Loader2, Wallet, X } from "lucide-react"
 import { toast } from "sonner"
 import { createClient } from "@/lib/supabase/client"
 import { CURRENCIES, slugify } from "@/lib/format"
@@ -80,6 +81,14 @@ export function SettingsForm({ merchant }: { merchant: Merchant }) {
       )}
       <Page title="Settings" narrow>
         <div className="grid gap-6">
+          <Link href="/admin/settings/payments" className="surface flex items-center gap-4 p-5 transition-shadow hover:ring-1 hover:ring-[#b9c2bc]">
+            <span className="grid size-10 place-items-center rounded-xl bg-[#dcfce9] text-[#0b3d2c]"><Wallet className="size-5" /></span>
+            <span className="min-w-0 flex-1">
+              <span className="block font-semibold">Payments</span>
+              <span className="block text-[13px] text-[#5d6b63]">Cash on delivery, bKash/Nagad, bank transfer and online gateways</span>
+            </span>
+            <ChevronRight className="size-5 text-[#8a958e]" />
+          </Link>
           <Section title="Store details" description="Your customers see this on your storefront.">
             <Card>
               <div className="grid gap-4 sm:grid-cols-2">
